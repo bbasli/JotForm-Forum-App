@@ -1,0 +1,32 @@
+.UserContainer {
+    border-bottom: 1px solid #d7d7d7;
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .User-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: start;
+    margin-left: 20px;
+  }
+  
+  .Question-content {
+    padding: 15px 5px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Question-content p {
+    text-align: start;
+    font-size: 14px;
+  }
+  
+  .User-card {
+    margin-top: 20px;
+    padding: 10px 20px;
+    box-shadow: 0 0 9px 0 rgba(0,0,0,.11);
+  }

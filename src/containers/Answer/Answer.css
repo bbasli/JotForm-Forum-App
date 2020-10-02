@@ -1,0 +1,74 @@
+.Head {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #1051BF;
+}
+
+.Container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.GoBack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.GoBack a {
+  text-decoration: none;
+  color: #1051BF;
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.Left p {
+  text-align: start;
+  font-size: 14px;
+  line-height: 1.4rem;
+}
+
+.Left {
+  width: 22%;
+  margin-right: 30px;
+}
+
+.Ask {
+  background: #39b54a;
+  color: #fff;
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  border: none;
+  border-radius: 2rem;
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-size: 1.2rem;
+  height: auto;
+  margin: 20px 0;
+  font-weight: 500;
+  outline: none;
+}
+
+.Container .Mid {
+  width: 60%;
+  margin-top: 55px;
+  display: flex;
+  flex-direction: row;
+}
+
+.Mid span {
+  text-align: start;
+  font-size: 23px;
+  color: #1051BF;
+  font-weight: 600;
+}
+
+.Main {
+  width: 75%;
+  margin-bottom: 150px;
+}

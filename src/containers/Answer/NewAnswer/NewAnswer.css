@@ -1,0 +1,31 @@
+.Your-answer {
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 0px 9px 0px;
+    padding: 20px 20px;
+    margin-top: 50px;
+  }
+  
+  .Your-answer textarea {
+    height: 470px;
+    margin: 15px 0;
+    border-color: #d7d7d7;
+    font-size: 1rem;
+    padding: 15px;
+  }
+  
+  .Your-answer button {
+    width: 150px;
+    border-radius: 2rem;
+    padding: 5px 15px;
+    background-color: #EF6530;
+    border: none;
+    color: #FFF;
+    height: 30px;
+    font-size: 1rem;
+  }
+  
+  .YAButton {
+    display: flex;
+    justify-content: flex-end;
+  }

@@ -1,0 +1,30 @@
+.Avatar {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 3px solid #F38632;
+    margin: 5px 0;
+}
+
+.Jf-logo {
+    height: 33px;
+}
+
+.Logo {
+    display: flex;
+}
+
+.Jf-podo {
+    height: 150px;
+    margin-right: 20px;
+}
+
+.User-logo {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+}
+
+.Answer-podo {
+    height: 175px;
+}

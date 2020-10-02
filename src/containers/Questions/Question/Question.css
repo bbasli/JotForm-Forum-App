@@ -1,0 +1,63 @@
+.Replies {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #ebebeb;
+  height: 35px;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+
+.Question {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ebebeb;
+  min-height: 70px;
+}
+
+.Replies p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.Content p {
+  margin: 0;
+  display: flex;
+  justify-content: initial;
+  text-align: initial;
+  font-size: 16px;
+  color: #464646;
+}
+
+.Content div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Content {
+  width: 100%;
+  padding: 0 10px;
+  margin-left: 5px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Content p:hover {
+  color: #f38632;
+}
+
+.Content .SubContent {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  max-width: 75%;
+  padding-bottom: 5px;
+}

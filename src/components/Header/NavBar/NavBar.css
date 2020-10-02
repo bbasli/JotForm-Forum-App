@@ -1,0 +1,17 @@
+.NavBar {
+    display: flex;
+}
+
+.NavBar a {
+    text-decoration: none;
+    box-sizing: border-box;
+    display: block;
+    color: white;
+    padding: 0 10px;
+    margin: 0 5px;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #F38632;
+}

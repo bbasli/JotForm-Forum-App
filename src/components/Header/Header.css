@@ -1,0 +1,15 @@
+.Header {
+  height: 275px;
+  background-color: #1051BF;
+}
+
+.NavAvatar {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 500px) {
+  .Header {
+    flex-flow: row;
+  }
+}
