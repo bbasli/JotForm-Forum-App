@@ -9,7 +9,7 @@ const userCard = (props) => {
       <div className="UserContainer">
         <div>
           <Logo
-            src="https://www.gravatar.com/avatar/4d0dde69c7fc87cca01e743e93848938.jpg?d=https://cdn.jotfor.ms/assets/img/v4/avatar/Podo-Avatar2-04.png&r=r&s=80"
+            src={props.user.avatarUrl}
             alt="User-logo"
             // eslint-disable-next-line
             style="User-logo"
@@ -17,7 +17,7 @@ const userCard = (props) => {
         </div>
         <div className="User-info">
           <div>
-            <strong>{props.username}</strong>
+            <strong>{props.user.username}</strong>
           </div>
           <div>
             {props.isAsked ? "Asked" : "Answered"} on
@@ -32,12 +32,14 @@ const userCard = (props) => {
         <p>
           <strong>Page URL:</strong>
           <br />
-          <a href={"http://"+props.helperUrl} target="blank">{props.helperUrl}</a>
+          <a href={"http://" + props.helperUrl} target="blank">
+            {props.helperUrl}
+          </a>
         </p>
       )}
       {props.ssUrl === undefined ? null : (
         <img
-          src={"data:image/png;base64,"+props.ssUrl}
+          src={"data:image/png;base64," + props.ssUrl}
           alt="ss"
           style={{ maxWidth: "540px", height: "auto" }}
         />
@@ -91,8 +93,8 @@ const parseDate = (created_at) => {
       default:
         month = "ERROR";
     }
-    if (hour[0] === "0") hour = hour[1];
-    hour += 5;
+    if (hour[0] === "0" && hour[1] !== "0") hour = hour[1];
+    hour = parseInt(hour) + 7;
     hour = hour % 24;
     let AP;
     if (hour > 12) {

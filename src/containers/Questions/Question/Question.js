@@ -17,7 +17,6 @@ const question = (props) => {
           <Link
             to={{
               pathname: "/answers/" + props.id,
-              state: { user: props.user, apiKey: props.apiKey },
             }}
             style={{ textDecoration: "none", color: "black" }}
           >

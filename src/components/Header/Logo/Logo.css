@@ -10,19 +10,16 @@
     height: 33px;
 }
 
-.Logo {
-    display: flex;
-}
-
 .Jf-podo {
     height: 150px;
     margin-right: 20px;
 }
 
 .User-logo {
-    height: 90px;
-    width: 90px;
+    height: 84px;
+    width: 84px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .Answer-podo {

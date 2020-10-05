@@ -1,30 +1,3 @@
-.NewQuestion-SubHeader {
-  display: flex;
-  flex-direction: row;
-  height: 214px;
-}
-
-.SubHeader-Text {
-  display: flex;
-  flex-direction: column;
-  align-items: initial;
-  justify-content: center;
-}
-
-.SubHeader-Text {
-  color: #fff;
-}
-
-.SubHeader-Text span {
-  font-size: 22px;
-  font-weight: 300;
-}
-
-.SubHeader-Text p {
-  font-size: 36px;
-  margin: 0;
-}
-
 .Title {
   padding: 6px 9px;
   height: 20px;
@@ -61,14 +34,13 @@
 
 .Answer-field {
   display: flex;
-  flex-direction: "row";
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid #eaeaea;
   padding: 16px 0;
 }
 
-.Fields {
+.Helper-Fields {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -83,4 +55,21 @@
 
 textarea {
   font-size: 16px;
+}
+
+.Question-Content-Container {
+  display: flex;
+  flex-direction: row;
+}
+
+.Question-Content-Container .Fields {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Answer-field .HelperUrl-Field {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 }

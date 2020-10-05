@@ -1,101 +1,73 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import Header from "../../components/Header/Header";
-import Logo from "../../components/Header/Logo/Logo";
 import "./NewQuestion.css";
 
 class NewQuestion extends Component {
   state = {
-    username: "",
-    userAvatar: null,
-    formID: process.env.REACT_APP_QUESTION_FORM_ID,
-    apiKey: process.env.REACT_APP_APP_KEY,
     question: {
       title: "",
       content: "",
       helperUrl: "",
       ssUrl: "",
-    },
+    }
   };
 
-  componentDidMount() {
-    console.log("[NewQuestion.js] componentDidMount");
-    this.setState({
-      username: this.props.location.state.username,
-      avatarUrl: this.props.location.state.avatarUrl,
-    });
-  }
-
   updateTitleHandler = (event) => {
-    const question = this.state.question;
     this.setState({
       question: {
-        ...question,
+        ...this.state.question,
         title: event.target.value,
       },
     });
   };
 
   updateContentHandler = (event) => {
-    const question = this.state.question;
     this.setState({
       question: {
-        ...question,
+        ...this.state.question,
         content: event.target.value,
       },
     });
   };
 
   updateHelperUrlHandler = (event) => {
-    const question = this.state.question;
     this.setState({
       question: {
-        ...question,
+        ...this.state.question,
         helperUrl: event.target.value,
       },
     });
   };
 
-  updateSsUrlHandler = (event) => {
-    const question = this.state.question;
-    var file = event.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.setState({
-        question: {
-          ...question,
-          ssUrl: reader.result,
-        },
-      });
-    };
-    reader.onerror = function (error) {
-      console.log("Error: ", error);
-    };
-  };
+  updateSsUrlHandler = (event) => {};
 
   postDataHandler = (event) => {
     event.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
     const submisson = [
       {
-        3: { first: this.state.username, last: "" },
+        3: { first: user.username, last: "" },
         5: this.state.question.title,
         6: this.state.question.content,
         7: this.state.question.helperUrl,
         8: this.state.question.ssUrl,
+        9: 0,
+        10: user.avatarUrl
       },
     ];
     const requestUrl =
       "https://api.jotform.com/form/" +
-      this.state.formID +
+      process.env.REACT_APP_QUESTION_FORM_ID +
       "/submissions?apiKey=" +
-      this.state.apiKey;
+      process.env.REACT_APP_APP_KEY;
 
     axios.put(requestUrl, submisson).then(
       (response) => {
         console.log(response);
-        window.location.href = "/";
+        this.props.history.push("/questions");
       },
       (error) => {
         console.log("Error ", error);
@@ -109,55 +81,16 @@ class NewQuestion extends Component {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div className="Edge"></div>
         <div style={{ width: "63%" }}>
-          <Header avatar={this.state.avatarUrl}>
-            <div className="NewQuestion-SubHeader">
-              <div style={{ marginTop: "129px", width: "30%" }}>
-                <Logo
-                  src="//cdn.jotfor.ms/assets/img/memberkit/answers-create-podo.svg?v=1"
-                  alt="Answer-podo"
-                  // eslint-disable-next-line
-                  style="Answer-podo"
-                />
-                <span
-                  style={{
-                    color: "#0773EE",
-                    fontSize: "1.2rem",
-                    fontWeight: "500",
-                  }}
-                >
-                  Ask Your Question
-                </span>
-              </div>
-
-              <div className="SubHeader-Text">
-                <strong>
-                  <p>Contact JotForm Support</p>
-                </strong>
-                <span>Our customer support team is available 24/7</span>
-              </div>
-            </div>
-          </Header>
+          <Header showSearchBar={false} />
           <div
             style={{
               padding: "20px 0",
               borderBottom: "1px solid #eaeaea",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-              }}
-            >
+            <div className="Question-Content-Container">
               <div style={{ width: "30%" }}></div>
-              <div
-                style={{
-                  width: "70%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="Fields">
                 <span className="Split Heading">
                   <strong>How can we help?</strong>
                 </span>
@@ -175,18 +108,12 @@ class NewQuestion extends Component {
               </div>
             </div>
           </div>
-          <div className="Fields">
+          <div className="Helper-Fields">
             <div className="Split Answer-field">
               <span style={{ width: "30%" }} className="Left-heading">
                 Let Us Help You Better
               </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "70%",
-                }}
-              >
+              <div className="HelperUrl-Field">
                 <span>
                   Please provide more details about your problem by including
                   URL of the page or a screenshot.
@@ -204,10 +131,10 @@ class NewQuestion extends Component {
                 Upload a Screenshot
               </span>
               <input
-                style={{ width: "769px" }}
+                style={{ maxWidth: "769px", width: "70%" }}
                 className="Title Split Border"
                 type="file"
-                //value={this.state.question.ssUrl}
+                value={this.state.question.ssUrl}
                 onChange={this.updateSsUrlHandler}
               />
             </div>
@@ -226,4 +153,10 @@ class NewQuestion extends Component {
   }
 }
 
-export default NewQuestion;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(NewQuestion);
