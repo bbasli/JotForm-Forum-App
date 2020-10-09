@@ -1,25 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import "./Body.css";
 import JFSupport from "../../containers/JFSupport/JFSupport";
 import JFArticles from "../../containers/JFSupport/JFArticles";
+import * as actions from "../../store/actions/index";
 
-const body = (props) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+const Body = (props) => {
+  const [isMyQuestions, toggleButton] = useState(true);
+
+  const getMyQuestions = () => {
+    if (props.user !== null) {
+      axios
+        .get(
+          "https://api.jotform.com/form/" +
+            process.env.REACT_APP_QUESTION_FORM_ID +
+            "/submissions?apiKey=" +
+            process.env.REACT_APP_APP_KEY +
+            "&filtering={'status:ne':'DELETED'}"
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            let data = response.data.content;
+            let filteredData = data.filter((question) => {
+              let name = question.answers[3].answer.first;
+              if (
+                question.answers[3].answer.last !== "" &&
+                question.answers[3].answer.last !== undefined
+              )
+                name += " " + question.answers[3].answer.last;
+              return name === props.user.username;
+            });
+            if (filteredData.length > 0 && isMyQuestions) {
+              props.fetchQuestionsSuccess(filteredData);
+              props.fetchTotalQuestionCountSuccess(filteredData.length);
+            } else {
+              props.fetchTotalQuestionCount();
+              props.fetchQuestions(0, props.questionPerPage);
+            }
+            toggleButton(!isMyQuestions);
+          }
+        });
+    } else alert("To show your question, you have to login :)");
+  };
+
   return (
     <div className="Body">
       <div className="Part-one">
-        <JFSupport user={props.user} />
+        <JFSupport />
         <JFArticles />
       </div>
       <div className="Part-two">
         <div className="MyQButton">
-          <button
-            className="MyQuestion"
-            onClick={() => getMyQuestions(user.username, props.setQuestions)}
-          >
-            My Questions
+          <button className="MyQuestion" onClick={() => getMyQuestions()}>
+            {isMyQuestions ? "My Questions" : "All Questions"}
           </button>
         </div>
         <div className="MyQuestionDiv">
@@ -31,29 +66,23 @@ const body = (props) => {
   );
 };
 
-const getMyQuestions = (username, setQuestions) => {
-  const apiKey = process.env.REACT_APP_APP_KEY;
-  const formID = process.env.REACT_APP_QUESTION_FORM_ID;
-  axios
-    .get(
-      "https://api.jotform.com/form/" + formID + "/submissions?apiKey=" + apiKey
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        let data = response.data.content;
-        let filteredData = data.filter((question) => {
-          let name = question.answers[3].answer.first;
-          if (
-            question.answers[3].answer.last !== "" &&
-            question.answers[3].answer.last !== undefined
-          )
-            name += " " + question.answers[3].answer.last;
-          return name === username;
-        });
-        //console.log("Filtered Data:", filteredData);
-        setQuestions(filteredData);
-      }
-    });
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user,
+    questionPerPage: state.questions.questionPerPage,
+  };
 };
 
-export default body;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchQuestionsSuccess: (newQuestions) =>
+      dispatch(actions.fetchQuestionsSuccess(newQuestions)),
+    fetchTotalQuestionCountSuccess: (newQuestionCount) =>
+      dispatch(actions.fetchTotalQuestionCountSuccess(newQuestionCount)),
+    fetchTotalQuestionCount: () => dispatch(actions.fetchTotalQuestionCount()),
+    fetchQuestions: (pageNumber, questionPerPage) =>
+      dispatch(actions.fetchQuestions(pageNumber, questionPerPage)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Body);

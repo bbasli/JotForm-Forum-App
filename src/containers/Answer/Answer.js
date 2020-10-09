@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -9,121 +8,28 @@ import "./Answer.css";
 import JFSupport from "../JFSupport/JFSupport";
 import NewAnswer from "./NewAnswer/NewAnswer";
 import UserCard from "../UserCard/UserCard";
+import * as actions from "../../store/actions/index";
 
 class Answer extends Component {
-  state = {
-    replyCount: 0,
-    title: "",
-    questionCard: null,
-    answers: [],
-    answer: "",
-  };
-
   componentDidMount() {
     console.log("[Answers.js] componentDidMount");
-    let data = null;
-    let name = "";
-    axios
-      .get(
-        "https://api.jotform.com/submission/" +
-          this.props.match.params.id +
-          "?apiKey=" +
-          process.env.REACT_APP_APP_KEY
-      )
-      .then((response) => {
-        data = response.data.content;
-        name = data.answers[3].answer.first;
-        if (
-          data.answers[3].answer.last !== "" &&
-          data.answers[3].answer.last !== undefined
-        )
-          name += " " + data.answers[3].answer.last;
-      });
-    axios
-      .get(
-        "https://api.jotform.com/form/" +
-          process.env.REACT_APP_ANSWER_FORM_ID +
-          "/submissions?apiKey=" +
-          process.env.REACT_APP_APP_KEY
-      )
-      .then((response) => {
-        //console.log(data)
-        //console.log(data.answers[10].answer)
-        this.setState({
-          questionCard: (
-            <UserCard
-              user={{ username: name, avatarUrl: data.answers[10].answer }}
-              created_at={data.created_at}
-              content={data.answers[6].answer}
-              helperUrl={data.answers[7].answer}
-              ssUrl={data.answers[8].answer}
-              isAsked={true}
-            />
-          ),
-          replyCount:
-            data.answers[9].answer === undefined ? 0 : data.answers[9].answer,
-          title: data.answers[5].answer,
-          answers: response.data.content,
-        });
-      });
+    this.props.fetchQuestion(this.props.match.params.id);
+    this.props.fetchAnswers();
+    this.props.authCheckState();
   }
 
-  answerHandler = (event) => {
-    event.preventDefault();
-    this.setState({
-      answer: event.target.value,
-    });
-  };
-
-  postDataHandler = (event) => {
-    event.preventDefault();
-    const user = JSON.parse(localStorage.getItem("user"));
-    const submisson = [
-      {
-        3: this.state.answer,
-        4: { first: user.username, last: "" },
-        6: user.avatarUrl,
-        7: this.props.match.params.id,
-      },
-    ];
-    const putRequestUrl =
-      "https://api.jotform.com/form/" +
-      process.env.REACT_APP_ANSWER_FORM_ID +
-      "/submissions?apiKey=" +
-      process.env.REACT_APP_APP_KEY;
-
-    axios.put(putRequestUrl, submisson).then(
-      (response) => {
-        if (response.status === 200) {
-          const postRequestUrl =
-            "https://api.jotform.com/submission/" +
-            this.props.match.params.id +
-            "?apiKey=" +
-            process.env.REACT_APP_APP_KEY;
-          const replyCount = parseInt(this.state.replyCount) + 1;
-          axios
-            .post(postRequestUrl, "submission[9]=" + replyCount)
-            .then((rsp) => {
-              if (rsp.status === 200) {
-                this.setState({
-                  replyCount: replyCount,
-                });
-                this.props.history.push("/questions");
-              }
-            });
-        }
-      },
-      (error) => {
-        console.log("Error ", error);
-      }
-    );
+  usernameHandler = (user) => {
+    let name = user.answer.first;
+    if (user.answer.last !== "" && user.answer.last !== undefined)
+      name += " " + user.answer.last;
+    return name;
   };
 
   render() {
     console.log("[Answers.js] rendering...");
     let answers = null;
-    if (this.state.answers.length > 0) {
-      const temp = this.state.answers;
+    if (this.props.answers.length > 0) {
+      const temp = this.props.answers;
       answers = temp
         .filter((answer) => {
           return (
@@ -135,10 +41,12 @@ class Answer extends Component {
           return (
             <UserCard
               key={answer.id}
+              id={answer.id}
               user={{
                 username: answer.answers[4].answer.first,
                 avatarUrl: answer.answers[6].answer,
               }}
+              type="Answer"
               created_at={answer.created_at}
               content={answer.answers[3].answer}
               isAsked={false}
@@ -171,15 +79,34 @@ class Answer extends Component {
             {/* MAIN PART OF PAGE */}
             <div className="Main">
               <div>
-                <span>{this.state.title}</span>
-                {this.state.questionCard}
+                {this.props.question !== null ? (
+                  <div>
+                    <span>{this.props.question.answers[5].answer}</span>
+                    <UserCard
+                      id={this.props.question.id}
+                      user={{
+                        username: this.usernameHandler(
+                          this.props.question.answers[3]
+                        ),
+                        avatarUrl: this.props.question.answers[10].answer,
+                      }}
+                      type="Question"
+                      created_at={this.props.question.created_at}
+                      content={this.props.question.answers[6].answer}
+                      helperUrl={this.props.question.answers[7].answer}
+                      isAsked={true}
+                    />
+                  </div>
+                ) : null}
               </div>
               {answers}
-              <NewAnswer
-                content={this.state.answer}
-                answerHandler={this.answerHandler}
-                post={this.postDataHandler}
-              />
+              {answers !== null && this.props.question !== null ? (
+                <NewAnswer
+                  questionID={this.props.match.params.id}
+                  user={this.props.user}
+                  replyCount={this.props.question.answers[9].answer}
+                />
+              ) : null}
             </div>
           </div>
           <div style={{ width: "20%" }}></div>
@@ -191,12 +118,18 @@ class Answer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.auth.user,
+    answers: state.answers.answers,
+    question: state.answers.question,
   };
 };
 
-Answer.propTypes = {
-  user: PropTypes.object,
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAnswers: () => dispatch(actions.fetchAnswers()),
+    fetchQuestion: (id) => dispatch(actions.fetchQuestion(id)),
+    authCheckState: () => dispatch(actions.authCheckState()),
+  };
 };
 
-export default connect(mapStateToProps)(Answer);
+export default connect(mapStateToProps, mapDispatchToProps)(Answer);

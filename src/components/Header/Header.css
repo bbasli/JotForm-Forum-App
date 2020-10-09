@@ -1,6 +1,12 @@
-.Header {
+.Header-login {
   height: 275px;
   background-color: #1051BF;
+}
+
+.Header-logout {
+  height: 265px;
+  background-color: #1051BF;
+  padding-top: 10px;
 }
 
 .NavAvatar {

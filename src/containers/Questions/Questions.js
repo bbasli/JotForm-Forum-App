@@ -13,21 +13,19 @@ const questions = (props) => {
         question.answers[3].answer.last !== undefined
       )
         name += " " + question.answers[3].answer.last;
-      if (question.status === "ACTIVE")
-        return (
-          <Question
-            key={question.id}
-            id={question.id}
-            title={question.answers[5].answer}
-            name={name}
-            content={question.answers[6].answer}
-            created_at={question.created_at}
-            replyCount={question.answers[9].answer}
-            helperUrl={question.answers[7].answer}
-            ssUrl={question.answers[8].answer}
-          />
-        );
-      else return null;
+      return (
+        <Question
+          key={question.id}
+          id={question.id}
+          title={question.answers[5].answer}
+          name={name}
+          content={question.answers[6].answer}
+          created_at={question.created_at}
+          replyCount={question.answers[9].answer}
+          helperUrl={question.answers[7].answer}
+          ssUrl={question.answers[11].answer}
+        />
+      );
     });
   }
   return <div>{data}</div>;

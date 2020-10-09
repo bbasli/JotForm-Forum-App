@@ -1,9 +1,53 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
 
 const userCard = (props) => {
+  const support = (function () {
+    if (!window.DOMParser) return false;
+    var parser = new DOMParser();
+    try {
+      parser.parseFromString("x", "text/html");
+    } catch (err) {
+      return false;
+    }
+    return true;
+  })();
+  const stringToHTML = function (str) {
+    // If DOMParser is supported, use it
+    if (support) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(str, "text/html");
+      return doc.body.firstChild;
+    }
+
+    // Otherwise, fallback to old-school method
+    var dom = document.createElement("div");
+    dom.innerHTML = str;
+    return dom;
+  };
+  console.log(stringToHTML(props.content));
+  let editButton = null;
+  if (props.loggedUser !== null)
+    if (props.loggedUser.username === props.user.username)
+      editButton = (
+        <div className="EditContainer">
+          <Link
+            to={{
+              pathname: "/new-question",
+              aboutProps: {
+                questionID: props.id,
+                type: props.type,
+              },
+            }}
+          >
+            Edit
+          </Link>
+        </div>
+      );
   return (
     <div className="User-card">
       <div className="UserContainer">
@@ -28,7 +72,7 @@ const userCard = (props) => {
       <div className="Question-content">
         <p>{props.content}</p>
       </div>
-      {props.helperUrl === undefined ? null : (
+      {props.helperUrl === undefined || props.helperUrl === "" ? null : (
         <p>
           <strong>Page URL:</strong>
           <br />
@@ -37,15 +81,24 @@ const userCard = (props) => {
           </a>
         </p>
       )}
-      {props.ssUrl === undefined ? null : (
-        <img
-          src={"data:image/png;base64," + props.ssUrl}
-          alt="ss"
-          style={{ maxWidth: "540px", height: "auto" }}
-        />
+      {props.ssUrl === undefined || props.ssUrl === "" ? null : (
+        <div style={{ display: "flex" }}>
+          {/* <img
+            src={ss}
+            alt="ss"
+            style={{ maxWidth: "540px", height: "250px", width: "100%" }}
+          /> */}
+        </div>
       )}
+      {editButton}
     </div>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    loggedUser: state.auth.user,
+  };
 };
 
 const parseDate = (created_at) => {
@@ -121,4 +174,4 @@ const parseDate = (created_at) => {
   return "";
 };
 
-export default userCard;
+export default connect(mapStateToProps)(userCard);

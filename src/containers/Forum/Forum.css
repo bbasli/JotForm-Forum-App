@@ -3,3 +3,28 @@
     height: 275px;
     background-color: #1051BF;
 }
+
+.Pages {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.Pages button {
+    height: 45px;
+    width: 50px;
+    background-color: #1051BF;
+    color: white;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 10%;
+    margin: 10px 10px;
+    cursor: pointer; 
+}
+
+.Pages button:hover {
+    background-color: lightskyblue;
+    color: black;
+}

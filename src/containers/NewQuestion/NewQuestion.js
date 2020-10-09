@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+
 
 import Header from "../../components/Header/Header";
 import "./NewQuestion.css";
+import * as actions from "../../store/actions/index";
 
 class NewQuestion extends Component {
   state = {
@@ -12,8 +16,28 @@ class NewQuestion extends Component {
       content: "",
       helperUrl: "",
       ssUrl: "",
-    }
+    },
   };
+
+  componentDidMount() {
+    this.props.authCheckState();
+
+    if (this.props.location.aboutProps !== undefined) {
+      console.log("new question ", this.props.location.aboutProps);
+      this.props.fetchQuestion(this.props.location.aboutProps.questionID);
+      if (this.props.question !== null) {
+        console.log("edit question", this.props.question);
+        this.setState({
+          question: {
+            title: this.props.question.answers[5].answer,
+            content: this.props.question.answers[6].answer,
+            helperUrl: this.props.question.answers[7].answer,
+            ssUrl: "",
+          },
+        });
+      }
+    }
+  }
 
   updateTitleHandler = (event) => {
     this.setState({
@@ -28,7 +52,7 @@ class NewQuestion extends Component {
     this.setState({
       question: {
         ...this.state.question,
-        content: event.target.value,
+        content: event,
       },
     });
   };
@@ -42,12 +66,24 @@ class NewQuestion extends Component {
     });
   };
 
-  updateSsUrlHandler = (event) => {};
+  updateSsUrlHandler = (event) => {
+    console.log(event.target.files[0]);
+    let reader = new FileReader();
+    let file = event.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        question: {
+          ...this.state.question,
+          ssUrl: reader.result,
+        },
+      });
+    };
+    reader.readAsDataURL(file);
+  };
 
   postDataHandler = (event) => {
-    event.preventDefault();
-    const user = JSON.parse(localStorage.getItem("user"));
-    const submisson = [
+    event.preventDefault(); /* const submisson = [
       {
         3: { first: user.username, last: "" },
         5: this.state.question.title,
@@ -55,33 +91,69 @@ class NewQuestion extends Component {
         7: this.state.question.helperUrl,
         8: this.state.question.ssUrl,
         9: 0,
-        10: user.avatarUrl
+        10: user.avatarUrl,
       },
-    ];
+    ]; */
+    if (this.props.user !== null)
+      console.log("POST:", this.props.user.username);
+
+    let formData = new FormData();
+    formData.append("submission[3_first]", this.props.user.username);
+
+    formData.append("submission[5]", this.state.question.title);
+    formData.append("submission[6]", this.state.question.content);
+    formData.append("submission[7]", this.state.question.helperUrl);
+    formData.append("submission[9]", 0);
+    formData.append("submission[10]", this.props.user.avatarUrl);
+    formData.append("submission[11]", this.state.question.ssUrl);
+
     const requestUrl =
       "https://api.jotform.com/form/" +
       process.env.REACT_APP_QUESTION_FORM_ID +
       "/submissions?apiKey=" +
       process.env.REACT_APP_APP_KEY;
 
-    axios.put(requestUrl, submisson).then(
-      (response) => {
-        console.log(response);
-        this.props.history.push("/questions");
-      },
-      (error) => {
-        console.log("Error ", error);
-      }
-    );
+    axios({
+      method: "post",
+      url: requestUrl,
+      data: formData,
+      headers: { "Content-type": "multipart/form-data" },
+    }).then((response) => {
+      console.log(response);
+      this.props.history.push("/questions");
+    });
   };
 
   render() {
     console.log("[NewQuestion.js] rendering...");
+    let modal = null;
+    if (this.props.user === null) {
+      modal = (
+        <div id="popup1" className="overlay">
+          <div className="popup">
+            <h2>Warning</h2>
+            <div className="content">
+              If you want to ask a question to the Jotform forum, please login
+              with your jotform account.
+            </div>
+            <button onClick={this.props.auth}>Login</button>
+          </div>
+        </div>
+      );
+    }
     return (
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div className="Edge"></div>
         <div style={{ width: "63%" }}>
-          <Header showSearchBar={false} />
+          <Header
+            showSearchBar={false}
+            type={
+              this.props.location.aboutProps === undefined
+                ? null
+                : this.props.location.aboutProps.type
+            }
+          />
+          {modal}
           <div
             style={{
               padding: "20px 0",
@@ -100,11 +172,13 @@ class NewQuestion extends Component {
                   value={this.state.question.title}
                   onChange={this.updateTitleHandler}
                 />
-                <textarea
-                  className="Split Border Area"
-                  value={this.state.question.content}
-                  onChange={this.updateContentHandler}
-                ></textarea>
+                <div className="Split Border Area">
+                  <ReactQuill
+                    value={this.state.question.content}
+                    onChange={this.updateContentHandler}
+                    style={{height: "91%"}}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -155,8 +229,17 @@ class NewQuestion extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.auth.user,
+    question: state.answers.question,
   };
 };
 
-export default connect(mapStateToProps)(NewQuestion);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    auth: () => dispatch(actions.auth()),
+    fetchQuestion: (id) => dispatch(actions.fetchQuestion(id)),
+    authCheckState: () => dispatch(actions.authCheckState()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewQuestion);

@@ -1,9 +1,11 @@
 .Body {
     display: flex;
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 
-.Body button {
+.Body .Part-one button,
+.Body .MyQButton button{
     color: #FFF;
     width: 250px;
     padding: 12px 0;
@@ -18,6 +20,7 @@
     margin: 20px 0;
     font-weight: 500;
     outline: none;
+    cursor: pointer;
 }
 
 .MyQuestion {

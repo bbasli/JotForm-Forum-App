@@ -9,7 +9,9 @@ const subHeader = (props) => {
     subHeader = (
       <div className="SubHeader">
         <div className="Text">
-          <h1>Form Support</h1>
+          <h1 onClick={() => (window.location.href = "/questions")}>
+            Form Support
+          </h1>
           <p>
             Search our library of answered support questions, or submit your
             own.
@@ -35,7 +37,9 @@ const subHeader = (props) => {
               fontWeight: "500",
             }}
           >
-            Ask Your Question
+            {props.type === "Question"
+              ? "About Your Question"
+              : "Ask Your Question"}
           </span>
         </div>
 

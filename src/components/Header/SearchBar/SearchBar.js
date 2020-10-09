@@ -1,11 +1,40 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import "./SearchBar.css";
 import Logo from "../Logo/Logo";
+import * as actions from "../../../store/actions/index";
 
 const SearchBar = (props) => {
   const [searchInput, setSearchInput] = useState("");
+
+  const getSearchedQuestion = () => {
+    axios
+      .get(
+        "https://api.jotform.com/form/" +
+          process.env.REACT_APP_QUESTION_FORM_ID +
+          "/submissions?apiKey=" +
+          process.env.REACT_APP_APP_KEY +
+          '&limit=9999&filter={"status:ne":"DELETED"}'
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          let data = response.data.content;
+          let filteredData = data.filter((question) => {
+            const title = question.answers[5].answer.toLowerCase().trim();
+            return title.indexOf(searchInput.toLowerCase()) >= 0;
+          });
+          props.fetchQuestionsSuccess(filteredData);
+          props.fetchTotalQuestionCountSuccess(filteredData.length);
+          if (searchInput === "") {
+            props.fetchTotalQuestionCount();
+            props.fetchQuestions(0, props.questionPerPage);
+          }
+          setSearchInput("");
+        }
+      });
+  };
 
   return (
     <div className="SearchBar">
@@ -23,7 +52,7 @@ const SearchBar = (props) => {
           onChange={(e) => setSearchInput(e.target.value)}
           value={searchInput}
         />
-        <button onClick={() => getSearchedQuestion(searchInput, props.setQuestions)}>
+        <button onClick={() => getSearchedQuestion()}>
           <i className="fas fa-search" style={{ marginRight: "3px" }}></i>
           <span>Search</span>
         </button>
@@ -32,24 +61,22 @@ const SearchBar = (props) => {
   );
 };
 
-const getSearchedQuestion = (searchInput, setQuestions) => {
-  const apiKey = process.env.REACT_APP_APP_KEY;
-  const formID = process.env.REACT_APP_QUESTION_FORM_ID;
-  axios
-    .get(
-      "https://api.jotform.com/form/" + formID + "/submissions?apiKey=" + apiKey
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        let data = response.data.content;
-        let filteredData = data.filter((question) => {
-          const title = question.answers[5].answer.toLowerCase().trim();
-          return title.indexOf(searchInput.toLowerCase()) >= 0;
-        });
-        //console.log("Filtered Data:", filteredData);
-        setQuestions(filteredData);
-      }
-    });
+const mapStateToProps = (state) => {
+  return {
+    questionPerPage: state.questions.questionPerPage,
+  };
 };
 
-export default SearchBar;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchQuestionsSuccess: (newQuestions) =>
+      dispatch(actions.fetchQuestionsSuccess(newQuestions)),
+    fetchTotalQuestionCountSuccess: (newQuestionCount) =>
+      dispatch(actions.fetchTotalQuestionCountSuccess(newQuestionCount)),
+    fetchTotalQuestionCount: () => dispatch(actions.fetchTotalQuestionCount()),
+    fetchQuestions: (pageNumber, questionPerPage) =>
+      dispatch(actions.fetchQuestions(pageNumber, questionPerPage)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

@@ -1,50 +1,31 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-import * as actionTypes from "../../store/actions";
+import * as actions from "../../store/actions/index";
 
 class Login extends Component {
-  loginFunction = () => {
-    window.JF.login(() => {
-      console.log("Logged in successfully");
-      const userApiKey = window.JF.getAPIKey();
-      axios
-        .get("https://api.jotform.com/user?apiKey=" + userApiKey)
-        .then((rsp) => {
-          const user = {
-            username: rsp.data.content.username,
-            avatarUrl: rsp.data.content.avatarUrl,
-            apiKey: userApiKey,
-          };
-          this.props.getUserInfo(user);
-          localStorage.setItem("user", JSON.stringify(user));
-          this.props.history.push("/questions");
-        });
-    });
-  };
+  componentDidMount() {
+    this.props.authCheckState();
+  }
 
   render() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user !== null) this.props.history.push("/questions");
-    return (
-      <div>
-        <button onClick={this.loginFunction}>LOGIN</button>
-      </div>
-    );
+    let redirect = <button onClick={this.props.onAuth}>LOGIN</button>;
+    if (this.props.user !== null) redirect = <Redirect to="/questions" />;
+    return <div>{redirect}</div>;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.auth.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserInfo: (userInfo) =>
-      dispatch({ type: actionTypes.GET_USER_INFO, value: userInfo }),
+    onAuth: () => dispatch(actions.auth()),
+    authCheckState: () => dispatch(actions.authCheckState()),
   };
 };
 

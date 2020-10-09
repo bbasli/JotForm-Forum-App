@@ -6,17 +6,16 @@
   border: none;
   background-color: #ebebeb;
   height: 35px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 3px;
 }
 
 .Question {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ebebeb;
-  min-height: 70px;
+  padding: 8px 0;
+  margin: 4px 0;
 }
 
 .Replies p {
