@@ -1,27 +1,27 @@
 .Avatar {
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    border: 2px solid #F38632;
-    margin: 5px 0;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  border: 2px solid #f38632;
+  margin: 5px 0;
 }
 
 .Jf-logo {
-    height: 33px;
+  height: 33px;
 }
 
 .Jf-podo {
-    height: 150px;
-    margin-right: 20px;
+  height: 150px;
+  margin-right: 20px;
 }
 
-/* .User-logo {
+.User-logo {
     height: 84px;
     width: 84px;
     border-radius: 50%;
     object-fit: cover;
-} */
+}
 
 .Answer-podo {
-    height: 175px;
+  height: 175px;
 }

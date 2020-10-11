@@ -125,3 +125,8 @@
     width: 70%;
   }
 }
+
+.QuestionContainer {
+  padding: 20px 0;
+  border-bottom: 1px solid #eaeaea;
+}

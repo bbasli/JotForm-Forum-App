@@ -6,7 +6,7 @@ import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
 
 const userCard = (props) => {
-  const support = (function () {
+  /* const support = (function () {
     if (!window.DOMParser) return false;
     var parser = new DOMParser();
     try {
@@ -28,8 +28,7 @@ const userCard = (props) => {
     var dom = document.createElement("div");
     dom.innerHTML = str;
     return dom;
-  };
-  console.log(stringToHTML(props.content));
+  }; */
   let editButton = null;
   if (props.loggedUser !== null)
     if (props.loggedUser.username === props.user.username)

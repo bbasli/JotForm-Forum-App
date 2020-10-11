@@ -4,6 +4,9 @@ import "./SubHeader.css";
 import Logo from "../Logo/Logo";
 
 const subHeader = (props) => {
+  let logoText = "Ask Your Question";
+  if (props.type === "Question") logoText = "About Your Question";
+  else if (props.type === "Answer") logoText = "Edit Your Answer";
   let subHeader = null;
   if (props.showSearchBar) {
     subHeader = (
@@ -37,9 +40,7 @@ const subHeader = (props) => {
               fontWeight: "500",
             }}
           >
-            {props.type === "Question"
-              ? "About Your Question"
-              : "Ask Your Question"}
+            {logoText}
           </span>
         </div>
 

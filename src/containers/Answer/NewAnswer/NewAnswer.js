@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
-
+import "react-quill/dist/quill.snow.css";
 
 import "./NewAnswer.css";
 import * as actions from "../../../store/actions/index";
 
 const NewAnswer = (props) => {
   const [answer, setAnswer] = useState("");
-
   const postDataHandler = () => {
     console.log("POST", answer);
     const submisson = [
@@ -44,6 +42,7 @@ const NewAnswer = (props) => {
               )
               .then((rsp) => {
                 if (rsp.status === 200) {
+                  //console.log("Reply Count Response", rsp);
                 }
               });
           }
@@ -57,7 +56,12 @@ const NewAnswer = (props) => {
     <div className="Your-answer">
       <span style={{ marginBottom: "15px" }}>Your Answer</span>
       <div className="editor">
-        <ReactQuill style={{height: "90%"}} theme="snow" value={answer} onChange={setAnswer} />
+        <ReactQuill
+          style={{ height: "90%" }}
+          theme="snow"
+          value={answer}
+          onChange={setAnswer}
+        />
       </div>
       <div className="YAButton">
         <button onClick={postDataHandler}>Post Answer</button>
