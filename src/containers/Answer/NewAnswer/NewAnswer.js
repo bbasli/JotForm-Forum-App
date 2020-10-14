@@ -9,6 +9,7 @@ import * as actions from "../../../store/actions/index";
 
 const NewAnswer = (props) => {
   const [answer, setAnswer] = useState("");
+
   const postDataHandler = () => {
     console.log("POST", answer);
     const submisson = [
@@ -52,6 +53,7 @@ const NewAnswer = (props) => {
         }
       );
   };
+
   return (
     <div className="Your-answer">
       <span style={{ marginBottom: "15px" }}>Your Answer</span>

@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import Header from "../../components/Header/Header";
 import "./NewQuestion.css";
 import * as actions from "../../store/actions/index";
+import Modal from '../../components/Modal/Modal';
 
 class NewQuestion extends Component {
   state = {
@@ -137,18 +138,7 @@ class NewQuestion extends Component {
   render() {
     let modal = null;
     if (this.props.user === null) {
-      modal = (
-        <div id="popup1" className="overlay">
-          <div className="popup">
-            <h2>Warning</h2>
-            <div className="content">
-              If you want to ask a question to the Jotform forum, please login
-              with your jotform account.
-            </div>
-            <button onClick={this.props.auth}>Login</button>
-          </div>
-        </div>
-      );
+      modal = <Modal auth={this.props.auth} action="ask"/>
     }
     let helperContainer = (
       <div className="Helper-Fields">
