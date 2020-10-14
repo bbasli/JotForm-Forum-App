@@ -7,7 +7,6 @@ import "react-quill/dist/quill.snow.css";
 import Header from "../../components/Header/Header";
 import "./NewQuestion.css";
 import * as actions from "../../store/actions/index";
-import Modal from '../../components/Modal/Modal';
 
 class NewQuestion extends Component {
   state = {
@@ -17,6 +16,8 @@ class NewQuestion extends Component {
       helperUrl: "",
       ssUrl: "",
     },
+    username: "",
+    email: "",
   };
 
   componentDidMount() {
@@ -85,6 +86,18 @@ class NewQuestion extends Component {
     reader.readAsDataURL(file);
   };
 
+  updateUsernameHandler = (event) => {
+    this.setState({
+      username: event.target.value,
+    });
+  };
+
+  updateEmailHandler = (event) => {
+    this.setState({
+      email: event.target.value,
+    });
+  };
+
   postDataHandler = (event) => {
     event.preventDefault();
     if (this.props.user !== null)
@@ -115,12 +128,18 @@ class NewQuestion extends Component {
         formData.append("submission[11]", this.state.question.ssUrl);
       }
     } else {
-      formData.append("submission[3_first]", this.props.user.username);
+      if (this.props.user !== null) {
+        formData.append("submission[3_first]", this.props.user.username);
+        formData.append("submission[10]", this.props.user.avatarUrl);
+      } else {
+        formData.append("submission[3_first]", this.state.username);
+        formData.append("submission[13]", this.state.email);
+        formData.append("submission[10]", process.env.REACT_APP_AVATAR_URL);
+      }
       formData.append("submission[5]", this.state.question.title);
       formData.append("submission[6]", this.state.question.content);
       formData.append("submission[7]", this.state.question.helperUrl);
       formData.append("submission[9]", 0);
-      formData.append("submission[10]", this.props.user.avatarUrl);
       formData.append("submission[11]", this.state.question.ssUrl);
     }
 
@@ -138,7 +157,25 @@ class NewQuestion extends Component {
   render() {
     let modal = null;
     if (this.props.user === null) {
-      modal = <Modal auth={this.props.auth} action="ask"/>
+      modal = (
+        <div className="UserInput">
+          <input
+            className="Title Split Border"
+            type="text"
+            placeholder="Your name"
+            onChange={this.updateUsernameHandler}
+            required
+          />
+          <input
+            className="Title Split Border"
+            type="email"
+            placeholder="Your email address"
+            style={{ marginLeft: "5px" }}
+            onChange={this.updateEmailHandler}
+            required
+          />
+        </div>
+      );
     }
     let helperContainer = (
       <div className="Helper-Fields">
@@ -171,13 +208,12 @@ class NewQuestion extends Component {
             onChange={this.updateSsUrlHandler}
           />
         </div>
-        <button
+        <input
           className="Ask"
           style={{ width: "200px" }}
-          onClick={this.postDataHandler}
-        >
-          Post Question
-        </button>
+          type="submit"
+          value="Post Question"
+        />
       </div>
     );
     let titleContainer = (
@@ -185,11 +221,13 @@ class NewQuestion extends Component {
         <span className="Split Heading">
           <strong>How can we help?</strong>
         </span>
+        {modal}
         <input
           className="Title Split Border"
           placeholder="e.g., How can I create a successful survey form?"
           value={this.state.question.title}
           onChange={this.updateTitleHandler}
+          required
         />
         <div className="Split Border Area">
           <ReactQuill
@@ -237,14 +275,15 @@ class NewQuestion extends Component {
                 : this.props.location.aboutProps.type
             }
           />
-          {modal}
-          <div className="QuestionContainer">
-            <div className="Question-Content-Container">
-              <div style={{ width: "30%" }}></div>
-              {titleContainer}
+          <form onSubmit={this.postDataHandler}>
+            <div className="QuestionContainer">
+              <div className="Question-Content-Container">
+                <div style={{ width: "30%" }}></div>
+                {titleContainer}
+              </div>
             </div>
-          </div>
-          {helperContainer}
+            {helperContainer}
+          </form>
         </div>
         <div className="Edge"></div>
       </div>

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: #1051BF;
+  background-color: #1051bf;
 }
 
 .Container {
@@ -20,7 +20,7 @@
 
 .GoBack a {
   text-decoration: none;
-  color: #1051BF;
+  color: #1051bf;
   font-weight: 600;
   font-size: 25px;
 }
@@ -64,11 +64,32 @@
 .Mid span {
   text-align: start;
   font-size: 23px;
-  color: #1051BF;
+  color: #1051bf;
   font-weight: 600;
 }
 
 .Main {
   width: 75%;
   margin-bottom: 150px;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 10px 0;
+}
+
+.fields input {
+  width: 250px;
+  height: 29px;
+  padding-left: 10px;
+  margin: 1px;
+  border: 1px solid #d4d4d4;
+  line-height: 31px;
+  border-radius: 5px;
 }

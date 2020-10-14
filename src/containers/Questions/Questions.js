@@ -6,6 +6,7 @@ const questions = (props) => {
   const questions = props.questions;
   let data = null;
   if (questions.length > 0) {
+    
     data = questions.map((question) => {
       let name = question.answers[3].answer.first;
       if (
@@ -24,7 +25,7 @@ const questions = (props) => {
           updated_at={question.updated_at}
           replyCount={question.answers[9].answer}
           helperUrl={question.answers[7].answer}
-          ssUrl={question.answers[11].answer}
+          //ssUrl={question.answers[11].answer}
         />
       );
     });

@@ -9,17 +9,59 @@ import * as actions from "../../../store/actions/index";
 
 const NewAnswer = (props) => {
   const [answer, setAnswer] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 
-  const postDataHandler = () => {
-    console.log("POST", answer);
-    const submisson = [
-      {
-        3: answer,
-        4: { first: props.user.username, last: "" },
-        6: props.user.avatarUrl,
-        7: props.questionID,
-      },
-    ];
+  let modal = null;
+  if (props.user === null)
+    modal = (
+      <div className="user">
+        <div className="fields">
+          <label>Your name</label>
+          <input
+            type="text"
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="fields">
+          <label>Your email</label>
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+    );
+
+  const postDataHandler = (event) => {
+    event.preventDefault();
+    if (answer === "") {
+      alert("You have to fill your answer!!!");
+      return;
+    }
+    let submission = null;
+    if (props.user !== null)
+      submission = [
+        {
+          3: answer,
+          4: { first: props.user.username, last: "" },
+          6: props.user.avatarUrl,
+          7: props.questionID,
+        },
+      ];
+    else {
+      submission = [
+        {
+          3: answer,
+          4: { first: username, last: "" },
+          6: process.env.REACT_APP_AVATAR_URL,
+          7: props.questionID,
+          8: email,
+        },
+      ];
+    }
 
     axios
       .put(
@@ -27,7 +69,7 @@ const NewAnswer = (props) => {
           process.env.REACT_APP_ANSWER_FORM_ID +
           "/submissions?apiKey=" +
           process.env.REACT_APP_APP_KEY,
-        submisson
+        submission
       )
       .then(
         (response) => {
@@ -44,6 +86,7 @@ const NewAnswer = (props) => {
               .then((rsp) => {
                 if (rsp.status === 200) {
                   //console.log("Reply Count Response", rsp);
+                  window.location.href("/");
                 }
               });
           }
@@ -55,20 +98,25 @@ const NewAnswer = (props) => {
   };
 
   return (
-    <div className="Your-answer">
-      <span style={{ marginBottom: "15px" }}>Your Answer</span>
-      <div className="editor">
-        <ReactQuill
-          style={{ height: "90%" }}
-          theme="snow"
-          value={answer}
-          onChange={setAnswer}
-        />
+    <form onSubmit={postDataHandler}>
+      <div className="Your-answer">
+        {modal}
+        <div>
+          <label>Your Answer</label>
+          <div className="editor">
+            <ReactQuill
+              style={{ height: "90%" }}
+              theme="snow"
+              value={answer}
+              onChange={setAnswer}
+            />
+          </div>
+          <div className="YAButton">
+            <input type="submit" value="Post Answer" />
+          </div>
+        </div>
       </div>
-      <div className="YAButton">
-        <button onClick={postDataHandler}>Post Answer</button>
-      </div>
-    </div>
+    </form>
   );
 };
 

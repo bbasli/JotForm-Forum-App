@@ -8,10 +8,10 @@
 
 .editor {
   height: 450px;
-  padding: 15px;
+  padding: 10px;
 }
 
-.Your-answer button {
+.Your-answer input[type=submit] {
   width: 150px;
   border-radius: 2rem;
   padding: 5px 15px;
@@ -21,6 +21,12 @@
   height: 30px;
   font-size: 1rem;
   margin-top: 15px;
+}
+
+.Your-answer label {
+  font-size: 20px;
+  color: #1051bf;
+  font-weight: bold;
 }
 
 .YAButton {

@@ -8,7 +8,6 @@ import JFSupport from "../JFSupport/JFSupport";
 import NewAnswer from "./NewAnswer/NewAnswer";
 import UserCard from "../UserCard/UserCard";
 import * as actions from "../../store/actions/index";
-import Modal from "../../components/Modal/Modal";
 
 class Answer extends Component {
   componentDidMount() {
@@ -25,10 +24,6 @@ class Answer extends Component {
   };
 
   render() {
-    let modal = null;
-    if (this.props.user === null) {
-      modal = <Modal auth={this.props.auth} action="answer" />;
-    }
     let answers = null;
     if (this.props.answers.length > 0) {
       const temp = this.props.answers;
@@ -81,7 +76,6 @@ class Answer extends Component {
             {/* MAIN PART OF PAGE */}
             <div className="Main">
               <div>
-                {modal}
                 {this.props.question !== null ? (
                   <div>
                     <span>{this.props.question.answers[5].answer}</span>

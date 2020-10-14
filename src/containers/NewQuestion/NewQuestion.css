@@ -74,3 +74,12 @@
   padding: 20px 0;
   border-bottom: 1px solid #eaeaea;
 }
+
+.UserInput {
+  display: flex;
+  flex-direction: row;
+}
+
+.UserInput input {
+  width: 50%;
+}
