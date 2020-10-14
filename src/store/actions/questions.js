@@ -27,7 +27,6 @@ export const fetchQuestions = (
           pageNumber
       )
       .then((response) => {
-        //console.log("getQuestions", response);
         if (searchedText === null)
           dispatch(fetchQuestionsSuccess(response.data.content));
       })

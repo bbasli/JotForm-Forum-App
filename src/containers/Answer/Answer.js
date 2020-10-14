@@ -11,7 +11,6 @@ import * as actions from "../../store/actions/index";
 
 class Answer extends Component {
   componentDidMount() {
-    //console.log("[Answers.js] componentDidMount");
     this.props.fetchQuestion(this.props.match.params.id);
     this.props.fetchAnswers();
     this.props.authCheckState();
@@ -25,7 +24,6 @@ class Answer extends Component {
   };
 
   render() {
-    //console.log("[Answers.js] rendering...");
     let answers = null;
     if (this.props.answers.length > 0) {
       const temp = this.props.answers;

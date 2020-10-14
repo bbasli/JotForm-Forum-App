@@ -135,7 +135,6 @@ class NewQuestion extends Component {
   };
 
   render() {
-    //console.log("[NewQuestion.js] rendering...");
     let modal = null;
     if (this.props.user === null) {
       modal = (

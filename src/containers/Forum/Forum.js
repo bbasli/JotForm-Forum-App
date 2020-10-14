@@ -9,24 +9,11 @@ import * as actions from "../../store/actions/index";
 
 class Forum extends Component {
   componentDidMount() {
-    //console.log("[Forum.js] componentDidMount");
     this.props.authCheckState();
     this.props.fetchTotalQuestionCount();
     this.props.fetchQuestions(0, this.props.questionPerPage);
   }
-
-  /* shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.questions.length > 0) {
-      console.log("This state: ", this.props.questions[0].id);
-      console.log("Next state: ", nextProps.questions[0].id);
-      //console.log(this.state.questions[0].id !== nextState.questions[0].id);
-      return this.props.questions[0].id !== nextProps.questions[0].id;
-    } else return true;
-  } */
-
   render() {
-    //console.log("[Forum.js] rendering...");
-
     let questions = null;
     let container = null;
     if (this.props.questions.length > 0) {
