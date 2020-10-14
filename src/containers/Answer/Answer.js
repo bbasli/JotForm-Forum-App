@@ -27,7 +27,7 @@ class Answer extends Component {
   render() {
     let modal = null;
     if (this.props.user === null) {
-      modal = <Modal auth={this.props.auth} action="ask" />;
+      modal = <Modal auth={this.props.auth} action="answer" />;
     }
     let answers = null;
     if (this.props.answers.length > 0) {
