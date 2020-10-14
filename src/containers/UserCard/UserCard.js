@@ -6,29 +6,9 @@ import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
 
 const userCard = (props) => {
-  /* const support = (function () {
-    if (!window.DOMParser) return false;
-    var parser = new DOMParser();
-    try {
-      parser.parseFromString("x", "text/html");
-    } catch (err) {
-      return false;
-    }
-    return true;
-  })();
   const stringToHTML = function (str) {
-    // If DOMParser is supported, use it
-    if (support) {
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(str, "text/html");
-      return doc.body.firstChild;
-    }
-
-    // Otherwise, fallback to old-school method
-    var dom = document.createElement("div");
-    dom.innerHTML = str;
-    return dom;
-  }; */
+    return { __html: str };
+  };
   let editButton = null;
   if (props.loggedUser !== null)
     if (props.loggedUser.username === props.user.username)
@@ -68,9 +48,11 @@ const userCard = (props) => {
           </div>
         </div>
       </div>
-      <div className="Question-content">
-        <p>{props.content}</p>
-      </div>
+      <div
+        className="Question-content"
+        dangerouslySetInnerHTML={stringToHTML(props.content)}
+      />
+
       {props.helperUrl === undefined || props.helperUrl === "" ? null : (
         <p>
           <strong>Page URL:</strong>

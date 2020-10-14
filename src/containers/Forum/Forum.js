@@ -9,7 +9,7 @@ import * as actions from "../../store/actions/index";
 
 class Forum extends Component {
   componentDidMount() {
-    console.log("[Forum.js] componentDidMount");
+    //console.log("[Forum.js] componentDidMount");
     this.props.authCheckState();
     this.props.fetchTotalQuestionCount();
     this.props.fetchQuestions(0, this.props.questionPerPage);
@@ -25,7 +25,7 @@ class Forum extends Component {
   } */
 
   render() {
-    console.log("[Forum.js] rendering...");
+    //console.log("[Forum.js] rendering...");
 
     let questions = null;
     let container = null;

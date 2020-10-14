@@ -21,6 +21,7 @@ const questions = (props) => {
           name={name}
           content={question.answers[6].answer}
           created_at={question.created_at}
+          updated_at={question.updated_at}
           replyCount={question.answers[9].answer}
           helperUrl={question.answers[7].answer}
           ssUrl={question.answers[11].answer}
