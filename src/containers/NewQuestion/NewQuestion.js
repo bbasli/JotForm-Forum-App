@@ -3,6 +3,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import uuid from "react-uuid";
+import { storage } from "../../Firebase/Firebase";
 
 import Header from "../../components/Header/Header";
 import "./NewQuestion.css";
@@ -14,8 +16,8 @@ class NewQuestion extends Component {
       title: "",
       content: "",
       helperUrl: "",
-      ssUrl: "",
     },
+    imageAsFile: "",
     username: "",
     email: "",
   };
@@ -34,7 +36,7 @@ class NewQuestion extends Component {
             title: this.props.question.answers[5].answer,
             content: this.props.question.answers[6].answer,
             helperUrl: this.props.question.answers[7].answer,
-            ssUrl: "",
+            imageAsFile: "",
           },
         });
       }
@@ -68,20 +70,13 @@ class NewQuestion extends Component {
     });
   };
 
-  updateSsUrlHandler = (event) => {
-    console.log(event.target.files[0]);
-    let reader = new FileReader();
-    let file = event.target.files[0];
-
-    reader.onloadend = () => {
-      this.setState({
-        question: {
-          ...this.state.question,
-          ssUrl: reader.result,
-        },
-      });
-    };
-    reader.readAsDataURL(file);
+  updateImageHandler = (event) => {
+    if (event.target.files[0]) {
+      const image = event.target.files[0];
+      this.setState(() => ({
+        imageAsFile: image,
+      }));
+    }
   };
 
   updateUsernameHandler = (event) => {
@@ -96,9 +91,7 @@ class NewQuestion extends Component {
     });
   };
 
-  postDataHandler = (event) => {
-    event.preventDefault();
-
+  postDataHandler = (imageId = "") => {
     let formData = new FormData();
     let requestUrl =
       "https://api.jotform.com/form/" +
@@ -121,7 +114,7 @@ class NewQuestion extends Component {
         formData.append("submission[7]", this.state.question.helperUrl);
         formData.append("submission[9]", 0);
         formData.append("submission[10]", this.props.user.avatarUrl);
-        formData.append("submission[11]", this.state.question.ssUrl);
+        formData.append("submission[14]", imageId);
       }
     } else {
       if (this.props.user !== null) {
@@ -136,7 +129,7 @@ class NewQuestion extends Component {
       formData.append("submission[6]", this.state.question.content);
       formData.append("submission[7]", this.state.question.helperUrl);
       formData.append("submission[9]", 0);
-      formData.append("submission[11]", this.state.question.ssUrl);
+      formData.append("submission[14]", imageId);
     }
 
     axios({
@@ -147,6 +140,32 @@ class NewQuestion extends Component {
     }).then((response) => {
       this.props.history.push("/questions");
     });
+  };
+
+  submit = (event) => {
+    event.preventDefault();
+    
+    const imageId = uuid();
+    if (this.state.imageAsFile === "") {
+      this.postDataHandler();
+    } else {
+      const uploadTask = storage
+        .ref(`/images/${imageId}`)
+        .put(this.state.imageAsFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log("Progress snaphot");
+        },
+        (error) => {
+          console.error(error);
+        },
+        () => {
+          this.postDataHandler(imageId);
+        }
+      );
+    }
   };
 
   render() {
@@ -199,8 +218,7 @@ class NewQuestion extends Component {
             style={{ maxWidth: "769px", width: "70%" }}
             className="Title Split Border"
             type="file"
-            value={this.state.question.ssUrl}
-            onChange={this.updateSsUrlHandler}
+            onChange={this.updateImageHandler}
           />
         </div>
         <input
@@ -270,7 +288,7 @@ class NewQuestion extends Component {
                 : this.props.location.aboutProps.type
             }
           />
-          <form onSubmit={this.postDataHandler}>
+          <form onSubmit={this.submit}>
             <div className="QuestionContainer">
               <div className="Question-Content-Container">
                 <div style={{ width: "30%" }}></div>

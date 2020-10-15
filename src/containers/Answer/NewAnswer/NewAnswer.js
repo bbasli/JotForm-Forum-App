@@ -3,6 +3,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import uuid from "react-uuid";
+import { storage } from "../../../Firebase/Firebase";
 
 import "./NewAnswer.css";
 import * as actions from "../../../store/actions/index";
@@ -11,6 +13,7 @@ const NewAnswer = (props) => {
   const [answer, setAnswer] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [imageAsFile, setImageAsFile] = useState("");
 
   let modal = null;
   if (props.user === null)
@@ -35,12 +38,7 @@ const NewAnswer = (props) => {
       </div>
     );
 
-  const postDataHandler = (event) => {
-    event.preventDefault();
-    if (answer === "") {
-      alert("You have to fill your answer!!!");
-      return;
-    }
+  const postDataHandler = (imageId = "") => {
     let submission = null;
     if (props.user !== null)
       submission = [
@@ -49,6 +47,7 @@ const NewAnswer = (props) => {
           4: { first: props.user.username, last: "" },
           6: props.user.avatarUrl,
           7: props.questionID,
+          9: imageId,
         },
       ];
     else {
@@ -59,6 +58,7 @@ const NewAnswer = (props) => {
           6: process.env.REACT_APP_AVATAR_URL,
           7: props.questionID,
           8: email,
+          9: imageId,
         },
       ];
     }
@@ -87,6 +87,7 @@ const NewAnswer = (props) => {
                 if (rsp.status === 200) {
                   props.fetchAnswers();
                   setAnswer("");
+                  setImageAsFile("");
                 }
               });
           }
@@ -97,8 +98,38 @@ const NewAnswer = (props) => {
       );
   };
 
+  const submit = (event) => {
+    event.preventDefault();
+    if (answer === "") {
+      alert("You have to fill your answer field to post");
+      return;
+    }
+    const imageId = uuid();
+    if (imageAsFile === "") {
+      postDataHandler();
+    } else {
+      const uploadTask = storage.ref(`/images/${imageId}`).put(imageAsFile);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log("Progress snaphot");
+        },
+        (error) => {
+          console.error(error);
+        },
+        () => {
+          postDataHandler(imageId);
+        }
+      );
+    }
+  };
+  const handleImageAsFile = (event) => {
+    const image = event.target.files[0];
+    setImageAsFile((imageFile) => image);
+  };
+
   return (
-    <form onSubmit={postDataHandler}>
+    <form onSubmit={submit}>
       <div className="Your-answer">
         {modal}
         <div>
@@ -111,6 +142,11 @@ const NewAnswer = (props) => {
               onChange={setAnswer}
             />
           </div>
+          <input
+            type="file"
+            style={{ padding: "10px" }}
+            onChange={handleImageAsFile}
+          />
           <div className="YAButton">
             <input type="submit" value="Post Answer" />
           </div>

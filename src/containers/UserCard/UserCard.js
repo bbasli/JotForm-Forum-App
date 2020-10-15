@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { storage } from "../../Firebase/Firebase";
+import Spinner from "react-bootstrap/Spinner";
 
 import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
 
-const userCard = (props) => {
+const UserCard = (props) => {
+  const [imageUrl, setImageUrl] = useState("");
+  const [spinner, setSpinner] = useState(null);
   const stringToHTML = function (str) {
     return { __html: str };
   };
@@ -23,10 +27,21 @@ const userCard = (props) => {
               },
             }}
           >
-            Edit
+            <i className="fas fa-edit"></i>
           </Link>
         </div>
       );
+  if (props.ssUrl !== null && props.ssUrl !== "" && props.ssUrl !== undefined) {
+    //setSpinner(<Spinner animation="border" variant="success" />);
+    storage
+      .ref("images")
+      .child(props.ssUrl)
+      .getDownloadURL()
+      .then((url) => {
+        if (imageUrl === "") setImageUrl(url);
+        setSpinner(null);
+      });
+  }
   return (
     <div className="User-card">
       <div className="UserContainer">
@@ -52,7 +67,7 @@ const userCard = (props) => {
         className="Question-content"
         dangerouslySetInnerHTML={stringToHTML(props.content)}
       />
-
+      {spinner}
       {props.helperUrl === undefined || props.helperUrl === "" ? null : (
         <p>
           <strong>Page URL:</strong>
@@ -62,13 +77,15 @@ const userCard = (props) => {
           </a>
         </p>
       )}
-      {props.ssUrl === undefined || props.ssUrl === "" ? null : (
+      {props.ssUrl === undefined ||
+      props.ssUrl === "" ||
+      props.ssUrl === null ? null : (
         <div style={{ display: "flex" }}>
-          {/* <img
-            src={ss}
-            alt="ss"
-            style={{ maxWidth: "540px", height: "250px", width: "100%" }}
-          /> */}
+          <img
+            src={imageUrl}
+            alt="Screenshot"
+            style={{ minWidth: "540px", height: "auto", width: "100%" }}
+          />
         </div>
       )}
       {editButton}
@@ -155,4 +172,4 @@ const parseDate = (created_at) => {
   return "";
 };
 
-export default connect(mapStateToProps)(userCard);
+export default connect(mapStateToProps)(UserCard);

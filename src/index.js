@@ -11,6 +11,8 @@ import * as serviceWorker from "./serviceWorker";
 import questionsReducer from "./store/reducers/questions";
 import authReducer from "./store/reducers/auth";
 import answersReducer from "./store/reducers/answers";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

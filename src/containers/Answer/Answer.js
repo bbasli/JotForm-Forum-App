@@ -47,6 +47,11 @@ class Answer extends Component {
               created_at={answer.created_at}
               content={answer.answers[3].answer}
               isAsked={false}
+              ssUrl={
+                answer.answers[9].answer === undefined
+                  ? null
+                  : answer.answers[9].answer
+              }
             />
           );
         })
@@ -91,6 +96,11 @@ class Answer extends Component {
                       created_at={this.props.question.created_at}
                       content={this.props.question.answers[6].answer}
                       helperUrl={this.props.question.answers[7].answer}
+                      ssUrl={
+                        this.props.question.answers[14].answer === undefined
+                          ? null
+                          : this.props.question.answers[14].answer
+                      }
                       isAsked={true}
                     />
                   </div>
