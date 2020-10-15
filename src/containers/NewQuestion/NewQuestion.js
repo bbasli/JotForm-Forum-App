@@ -24,13 +24,11 @@ class NewQuestion extends Component {
     this.props.authCheckState();
 
     if (this.props.location.aboutProps !== undefined) {
-      console.log("new question for EDIT ", this.props.location.aboutProps);
       this.props.fetchQuestion(this.props.location.aboutProps.questionID);
       if (
         this.props.question !== null &&
         this.props.location.aboutProps.type === "Question"
       ) {
-        console.log("edit question", this.props.question);
         this.setState({
           question: {
             title: this.props.question.answers[5].answer,
@@ -100,8 +98,6 @@ class NewQuestion extends Component {
 
   postDataHandler = (event) => {
     event.preventDefault();
-    if (this.props.user !== null)
-      console.log("POST:", this.props.user.username);
 
     let formData = new FormData();
     let requestUrl =
@@ -149,7 +145,6 @@ class NewQuestion extends Component {
       data: formData,
       headers: { "Content-type": "multipart/form-data" },
     }).then((response) => {
-      console.log(response);
       this.props.history.push("/questions");
     });
   };

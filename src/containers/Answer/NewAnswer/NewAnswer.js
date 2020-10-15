@@ -85,8 +85,8 @@ const NewAnswer = (props) => {
               )
               .then((rsp) => {
                 if (rsp.status === 200) {
-                  //console.log("Reply Count Response", rsp);
-                  window.location.href("/");
+                  props.fetchAnswers();
+                  setAnswer("");
                 }
               });
           }

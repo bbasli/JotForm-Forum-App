@@ -102,7 +102,7 @@ class Answer extends Component {
                   questionID={this.props.match.params.id}
                   user={this.props.user}
                   replyCount={this.props.question.answers[9].answer}
-                  auth={this.props.auth}
+                  fetchAnswers={this.props.fetchAnswers}
                 />
               ) : null}
             </div>
