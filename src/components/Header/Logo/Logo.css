@@ -1,6 +1,6 @@
 .Avatar {
-  height: 45px;
-  width: 45px;
+  height: 52px;
+  width: 52px;
   border-radius: 50%;
   border: 2px solid #f38632;
   margin: 5px 0;
@@ -13,13 +13,14 @@
 .Jf-podo {
   height: 150px;
   margin-right: 20px;
+  margin-bottom: 15px;
 }
 
 .User-logo {
-    height: 84px;
-    width: 84px;
-    border-radius: 50%;
-    object-fit: cover;
+  height: 84px;
+  width: 84px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .Answer-podo {

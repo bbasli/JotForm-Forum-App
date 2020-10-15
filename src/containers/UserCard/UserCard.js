@@ -9,7 +9,6 @@ import Logo from "../../components/Header/Logo/Logo";
 
 const UserCard = (props) => {
   const [imageUrl, setImageUrl] = useState("");
-  const [spinner, setSpinner] = useState(null);
   const stringToHTML = function (str) {
     return { __html: str };
   };
@@ -32,14 +31,12 @@ const UserCard = (props) => {
         </div>
       );
   if (props.ssUrl !== null && props.ssUrl !== "" && props.ssUrl !== undefined) {
-    //setSpinner(<Spinner animation="border" variant="success" />);
     storage
       .ref("images")
       .child(props.ssUrl)
       .getDownloadURL()
       .then((url) => {
         if (imageUrl === "") setImageUrl(url);
-        setSpinner(null);
       });
   }
   return (
@@ -67,7 +64,6 @@ const UserCard = (props) => {
         className="Question-content"
         dangerouslySetInnerHTML={stringToHTML(props.content)}
       />
-      {spinner}
       {props.helperUrl === undefined || props.helperUrl === "" ? null : (
         <p>
           <strong>Page URL:</strong>
@@ -79,7 +75,9 @@ const UserCard = (props) => {
       )}
       {props.ssUrl === undefined ||
       props.ssUrl === "" ||
-      props.ssUrl === null ? null : (
+      props.ssUrl === null ? null : imageUrl === "" ? (
+        <Spinner animation="border" variant="success" />
+      ) : (
         <div style={{ display: "flex" }}>
           <img
             src={imageUrl}

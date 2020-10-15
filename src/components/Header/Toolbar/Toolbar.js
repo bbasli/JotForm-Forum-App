@@ -22,24 +22,39 @@ const toolbar = (props) => {
             style="Avatar"
           />
         </button>
-        <div className="dropdown-content">
-          <div>
+        <div className="dropdown-content-last">
+          <div
+            className="User-top"
+            onClick={() =>
+              window.open("https://www.jotform.com/myaccount/", "_blank")
+            }
+          >
             <span>
               Hello <strong>{props.user.username}</strong>
             </span>
             &nbsp;
-            <span>{getAccountType(props.user.account_type)}</span>
-            <button onClick={props.logout}>Logout</button>
+            <span className="User-type">
+              {getAccountType(props.user.account_type)}
+            </span>
+          </div>
+          <div className="Border-padding">
+            <a href="https://www.jotform.com/myaccount/settings" target="blank">
+              Settings
+            </a>
+          </div>
+          <div className="Border-padding" onClick={props.logout}>
+            Logout
           </div>
         </div>
       </div>
     );
   } else {
     userLogo = (
-      // eslint-disable-next-line
-      <a className="dropbtn" onClick={props.onAuth}>
-        Login
-      </a>
+      <div className="dropdown">
+        <button className="dropbtn" onClick={props.onAuth}>
+          Login
+        </button>
+      </div>
     );
   }
   return (
