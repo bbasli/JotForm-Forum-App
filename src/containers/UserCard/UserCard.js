@@ -82,7 +82,7 @@ const UserCard = (props) => {
           <img
             src={imageUrl}
             alt="Screenshot"
-            style={{ minWidth: "540px", height: "auto", width: "100%" }}
+            style={{ height: "auto", width: "100%" }}
           />
         </div>
       )}

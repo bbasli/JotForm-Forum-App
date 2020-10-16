@@ -144,7 +144,7 @@ class NewQuestion extends Component {
 
   submit = (event) => {
     event.preventDefault();
-    
+
     const imageId = uuid();
     if (this.state.imageAsFile === "") {
       this.postDataHandler();
@@ -215,7 +215,6 @@ class NewQuestion extends Component {
             Upload a Screenshot
           </span>
           <input
-            style={{ maxWidth: "769px", width: "70%" }}
             className="Title Split Border"
             type="file"
             onChange={this.updateImageHandler}
@@ -279,7 +278,7 @@ class NewQuestion extends Component {
     return (
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div className="Edge"></div>
-        <div style={{ width: "63%" }}>
+        <div className="Middle">
           <Header
             showSearchBar={false}
             type={
@@ -291,7 +290,7 @@ class NewQuestion extends Component {
           <form onSubmit={this.submit}>
             <div className="QuestionContainer">
               <div className="Question-Content-Container">
-                <div style={{ width: "30%" }}></div>
+                <div className="Question-Content-Left"></div>
                 {titleContainer}
               </div>
             </div>

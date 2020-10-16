@@ -42,7 +42,7 @@ class Forum extends Component {
     return (
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div className="Edge"></div>
-        <div style={{ width: "63%" }}>
+        <div className="Middle">
           <Header showSearchBar={true} />
           <Body>
             {questions}

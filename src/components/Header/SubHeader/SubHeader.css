@@ -59,3 +59,8 @@
   font-size: 36px;
   margin: 0;
 }
+
+.NewQuestion-SubHeader-logo {
+  margin-top: 126px; 
+  width: 30%;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 import "./Body.css";
 import JFSupport from "../../containers/JFSupport/JFSupport";
@@ -47,19 +48,33 @@ const Body = (props) => {
 
   return (
     <div className="Body">
-      <div className="Part-one">
-        <JFSupport />
-        <JFArticles />
-      </div>
-      <div className="Part-two">
+      <div className="Body-top">
+        <button className="Ask">
+          <NavLink
+            to={{
+              pathname: "/new-question",
+            }}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Ask your question
+          </NavLink>
+        </button>
         <div className="MyQButton">
           <button className="MyQuestion" onClick={() => getMyQuestions()}>
             {isMyQuestions ? "My Questions" : "All Questions"}
           </button>
         </div>
-        <div className="MyQuestionDiv">
-          <span>Recent Questions</span>
-          {props.children}
+      </div>
+      <div className="Parts">
+        <div className="Part-one">
+          <JFSupport />
+          <JFArticles />
+        </div>
+        <div className="Part-two">
+          <div className="MyQuestionDiv">
+            <span>Recent Questions</span>
+            {props.children}
+          </div>
         </div>
       </div>
     </div>

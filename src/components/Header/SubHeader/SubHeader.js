@@ -26,7 +26,7 @@ const subHeader = (props) => {
   } else
     subHeader = (
       <div className="NewQuestion-SubHeader">
-        <div style={{ marginTop: "126px", width: "30%" }}>
+        <div className="NewQuestion-SubHeader-logo">
           <Logo
             src="//cdn.jotfor.ms/assets/img/memberkit/answers-create-podo.svg?v=1"
             alt="Answer-podo"

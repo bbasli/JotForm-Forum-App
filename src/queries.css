@@ -1,0 +1,104 @@
+@media only screen and (max-width: 1075px) {
+  .Edge,
+  .LeftTop,
+  .RightTop {
+    width: 5%;
+  }
+  .Middle,
+  .MiddleTop {
+    width: 90%;
+  }
+  .Container .Mid {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .Edge,
+  .Left,
+  .Part-one,
+  .Jf-podo,
+  .NavAvatar,
+  .Question-Content-Left,
+  .NewQuestion-SubHeader-logo {
+    display: none;
+  }
+  .Middle,
+  .Main,
+  .Part-two,
+  .Answer-field .HelperUrl-Field,
+  .Upload-field input {
+    width: 100%;
+  }
+  .dropbtn {
+    padding: 0 7px;
+  }
+  .Body {
+    padding: 0 20px;
+  }
+  .Text,
+  .SearchBar,
+  .Toolbar {
+    padding-left: 30px;
+  }
+  .Question-Content-Container .Fields {
+    width: 100%;
+    padding: 15px 30px;
+  }
+  .NewQuestion-SubHeader {
+    justify-content: center;
+    padding: 0 5%;
+  }
+  .Answer-field {
+    display: inline;
+    padding: 0 30px;
+  }
+  .Upload-field {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+  }
+  .Split {
+    margin: 15px 0;
+  }
+  .Helper-Fields input[type="submit"] {
+    margin-right: 30px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .Middle,
+  .SubHeader input {
+    width: 100%;
+  }
+  .Search span,
+  .Content div {
+    display: none;
+  }
+  .Content {
+    padding: 0 10px 0 0;
+    margin-left: 10px;
+  }
+  .Replies {
+    padding: 3px 10px;
+  }
+  .Text,
+  .SearchBar {
+    padding-left: 20px;
+  }
+  .Text h1 {
+    font-size: 31px;
+  }
+  .Search {
+    width: 100%;
+    padding-right: 15px;
+  }
+  .MyQButton {
+    width: 50%;
+  }
+  .Ask {
+    width: 50%;
+    padding: 0;
+    font-size: 18px;
+  }
+}

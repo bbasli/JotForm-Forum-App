@@ -1,19 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
 const jfSupport = (props) => {
   return (
-    <div>
-      <button className="Ask">
-        <NavLink
-          to={{
-            pathname: "/new-question",
-          }}
-          style={{ textDecoration: "none", color: "white" }}
-        >
-          Ask your question
-        </NavLink>
-      </button>
+    <div style={{marginTop: "10px"}}>
       <p>
         At JotForm, we want to make sure that you’re getting the online form
         builder help that you need. Our friendly customer support team is

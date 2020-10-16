@@ -83,3 +83,7 @@
 .UserInput input {
   width: 50%;
 }
+
+.Question-Content-Left{
+  width: 30%;
+}

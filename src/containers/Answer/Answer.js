@@ -60,14 +60,14 @@ class Answer extends Component {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="Head">
-          <div style={{ width: "20%" }}></div>
-          <div style={{ width: "60%" }}>
+          <div className="LeftTop"></div>
+          <div className="MiddleTop">
             <Toolbar />
           </div>
-          <div style={{ width: "20%" }}></div>
+          <div className="RightTop"></div>
         </div>
         <div className="Container">
-          <div style={{ width: "20%" }}></div>
+          <div className="LeftTop"></div>
           <div className="Mid">
             <div className="Left">
               <div className="GoBack">
@@ -76,6 +76,16 @@ class Answer extends Component {
                   <span>&nbsp;&nbsp;Form Support</span>
                 </NavLink>
               </div>
+              <button className="Ask">
+                <NavLink
+                  to={{
+                    pathname: "/new-question",
+                  }}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Ask your question
+                </NavLink>
+              </button>
               <JFSupport />
             </div>
             {/* MAIN PART OF PAGE */}
@@ -117,7 +127,7 @@ class Answer extends Component {
               ) : null}
             </div>
           </div>
-          <div style={{ width: "20%" }}></div>
+          <div className="RightTop"></div>
         </div>
       </div>
     );

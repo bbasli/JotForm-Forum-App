@@ -39,7 +39,7 @@
 .Ask {
   background: #39b54a;
   color: #fff;
-  width: 100%;
+  width: 250px;
   padding: 12px 0;
   text-align: center;
   border: none;
@@ -92,4 +92,17 @@
   border: 1px solid #d4d4d4;
   line-height: 31px;
   border-radius: 5px;
+}
+
+.LeftTop,
+.RightTop {
+  width: 20%;
+}
+
+.MiddleTop {
+  width: 60%;
+}
+
+.Left .Ask {
+  width: 100%;
 }

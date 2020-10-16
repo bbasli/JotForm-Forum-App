@@ -1,69 +1,79 @@
 .Body {
-    display: flex;
-    margin-top: 20px;
-    margin-bottom: 50px;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  flex-direction: column;
 }
 
 .Body .Part-one button,
-.Body .MyQButton button{
-    color: #FFF;
-    width: 250px;
-    padding: 12px 0;
-    text-align: center;
-    border: none;
-    border-radius: 2rem;
-    text-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    font-size: 1.2rem;
-    height: auto;
-    margin: 20px 0;
-    font-weight: 500;
-    outline: none;
-    cursor: pointer;
+.Body .MyQButton button {
+  color: #fff;
+  width: 250px;
+  padding: 12px 0;
+  text-align: center;
+  border: none;
+  border-radius: 2rem;
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-size: 1.2rem;
+  height: auto;
+  margin: 20px 0;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
 }
 
 .MyQuestion {
-    padding: 10px 50px;
-    background: #1578dc;
+  padding: 10px 50px;
+  background: #1578dc;
 }
 
 .MyQButton {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .Ask {
-    background: #39b54a;
+  background: #39b54a;
 }
 
 .Part-one {
-    width: 25%;
-    margin-right: 20px;
+  width: 25%;
+  margin-right: 20px;
 }
 
 .Part-two {
-    width: 72%;
-    display: flex;
-    flex-direction: column;
+  width: 72%;
+  display: flex;
+  flex-direction: column;
 }
 
 .MyQuestionDiv {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .MyQuestionDiv span {
-    text-align: left;
-    font-size: 30px;
-    margin-bottom: 15px;
-    text-align: left;
+  text-align: left;
+  font-size: 30px;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
 .Part-one p {
-    text-align: left;
-    font-size: 14px;
-    line-height: 1.4rem;
-    color: #464646;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.4rem;
+  color: #464646;
 }
 
+.Body-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Parts {
+    display: flex;
+    flex-direction: row;
+}

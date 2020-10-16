@@ -45,7 +45,7 @@ const question = (props) => {
             Asked by &nbsp;<strong>{props.name}</strong>
           </p>
         </div>
-        <div>
+        <div className="ElapsedTime">
           <p style={{ color: "#b7b7c3", fontSize: "12px" }}>
             {calculateElapsedTime(props.created_at, props.updated_at)}
           </p>
