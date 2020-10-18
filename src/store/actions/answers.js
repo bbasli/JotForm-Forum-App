@@ -22,6 +22,11 @@ export const fetchQuestion = (submissionID) => {
       .then((response) => {
         if (response.status === 200) {
           dispatch(fetchQuestionSuccess(response.data.content));
+          if (response.data.content.answers[15].answer !== undefined)
+            if (response.data.content.answers[15].answer === "1")
+              dispatch(isSolvedQuestion(true));
+            else dispatch(isSolvedQuestion(false));
+          else dispatch(isSolvedQuestion(false));
         }
       })
       .catch((error) => {
@@ -90,5 +95,29 @@ export const addAnswer = (newAnswer) => {
   return {
     type: actionTypes.ADD_ANSWER,
     newAnswer: newAnswer,
+  };
+};
+
+export const isSolvedQuestion = (param) => {
+  return {
+    type: actionTypes.IS_SOLVED_QUESTION,
+    isSolved: param,
+  };
+};
+
+export const postIsSolved = (param, questionID) => {
+  return (dispatch) => {
+    const isSolved = param ? "1" : "0";
+    axios
+      .post(
+        "https://api.jotform.com/submission/" +
+          questionID +
+          "?apiKey=" +
+          process.env.REACT_APP_APP_KEY,
+        "submission[15]=" + isSolved
+      )
+      .then((response) => {
+        if (response.status === 200) dispatch(isSolvedQuestion(param));
+      });
   };
 };

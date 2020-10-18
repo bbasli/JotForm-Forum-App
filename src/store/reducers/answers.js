@@ -8,6 +8,7 @@ const initialState = {
   answer: null,
   error: null,
   loading: false,
+  isSolved: false,
 };
 
 const fetchQuestionStart = (state, action) => {
@@ -44,8 +45,14 @@ const fetchAnswersFail = (state, action) => {
 };
 
 const addAnswer = (state, action) => {
-  updateObject(state, {
+  return updateObject(state, {
     answers: [...state.answers, action.newAnswer],
+  });
+};
+
+const isSolvedQuestion = (state, action) => {
+  return updateObject(state, {
+    isSolved: action.isSolved,
   });
 };
 
@@ -55,8 +62,8 @@ const reducer = (state = initialState, action) => {
       return fetchQuestionStart(state, action);
     case actionTypes.FETCH_SELECTED_QUESTION_SUCCESS:
       return fetchQuestionSuccess(state, action);
-    /* case actionTypes.FETCH_SELECTED_QUESTION_FAIL:
-        return fetchQuestionFail(state,action); */
+    case actionTypes.FETCH_SELECTED_QUESTION_FAIL:
+        return fetchQuestionFail(state,action);
     case actionTypes.FETCH_ANSWERS_START:
       return fetchAnswersStart(state, action);
     case actionTypes.FETCH_ANSWERS_SUCCESS:
@@ -65,6 +72,8 @@ const reducer = (state = initialState, action) => {
       return fetchAnswersFail(state, action);
     case actionTypes.ADD_ANSWER:
       return addAnswer(state, action);
+    case actionTypes.IS_SOLVED_QUESTION:
+      return isSolvedQuestion(state, action);
     default:
       return state;
   }

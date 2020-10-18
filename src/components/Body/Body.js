@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 import "./Body.css";
 import JFSupport from "../../containers/JFSupport/JFSupport";
@@ -10,6 +11,10 @@ import * as actions from "../../store/actions/index";
 
 const Body = (props) => {
   const [isMyQuestions, toggleButton] = useState(true);
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const getMyQuestions = () => {
     if (props.user !== null) {
@@ -36,15 +41,21 @@ const Body = (props) => {
             if (filteredData.length > 0 && isMyQuestions) {
               props.fetchQuestionsSuccess(filteredData);
               props.fetchTotalQuestionCountSuccess(filteredData.length);
+              toggleButton(!isMyQuestions);
             } else {
+              alert("You have no question");
               props.fetchTotalQuestionCount();
               props.fetchQuestions(0, props.questionPerPage);
             }
-            toggleButton(!isMyQuestions);
           }
         });
-    } else alert("To show your question, you have to login :)");
+    } else handleShow();
   };
+
+  const login = () => {
+    props.auth();
+    handleClose();
+  }
 
   return (
     <div className="Body">
@@ -77,6 +88,19 @@ const Body = (props) => {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Warning</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Woohoo, You have to login to see your questions!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={login}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
@@ -97,6 +121,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchTotalQuestionCount: () => dispatch(actions.fetchTotalQuestionCount()),
     fetchQuestions: (pageNumber, questionPerPage) =>
       dispatch(actions.fetchQuestions(pageNumber, questionPerPage)),
+    auth: () => dispatch(actions.auth()),
   };
 };
 

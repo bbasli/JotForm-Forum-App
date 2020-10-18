@@ -107,7 +107,7 @@ class NewQuestion extends Component {
         process.env.REACT_APP_APP_KEY;
       if (this.props.location.aboutProps.type === "Answer")
         formData.append("submission[3]", this.state.question.content);
-      else {
+        if (this.props.location.aboutProps.type === "Question") {
         formData.append("submission[3_first]", this.props.user.username);
         formData.append("submission[5]", this.state.question.title);
         formData.append("submission[6]", this.state.question.content);

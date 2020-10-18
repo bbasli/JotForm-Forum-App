@@ -106,3 +106,27 @@
 .Left .Ask {
   width: 100%;
 }
+
+.Solve {
+  background-color: #39b54a;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  margin: 0 5px;
+  padding: 10px 40px;
+  font-size: 18px;
+  outline: none;
+}
+
+.Solve:hover {
+  background-color: white;
+  font-weight: bold;
+}
+
+.Solve:hover {
+  color: #39b54a;
+}
+
+.Solve:focus {
+  outline: none
+}

@@ -87,3 +87,7 @@
 .Question-Content-Left{
   width: 30%;
 }
+
+input[type=file] {
+  width: 70%;
+}

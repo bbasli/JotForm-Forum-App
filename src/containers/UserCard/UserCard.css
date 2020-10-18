@@ -3,6 +3,7 @@
   padding: 15px 25px;
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .User-info {
@@ -57,4 +58,25 @@
 
   width: auto;
   max-width: 100%;
+}
+
+.IsSolved {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 35px
+}
+
+.Solved {
+  color: #39B54A; 
+}
+
+.Unsolved {
+  color: grey;
+}
+
+.ImageContainer {
+  margin-bottom: 25px;
 }

@@ -23,6 +23,9 @@ const question = (props) => {
       return "Updated " + parseInt(elapsedMin) + " minutes ago";
     }
   };
+  let title = props.title;
+  if(title.length > 66)
+    title = title.substring(0, 66) + "...";
   return (
     <div className="Question">
       <div className="Replies">
@@ -39,7 +42,7 @@ const question = (props) => {
             }}
             style={{ textDecoration: "none", color: "black" }}
           >
-            <p>{props.title}</p>
+            <p>{title}</p>
           </Link>
           <p style={{ color: "#b7b7c3", fontSize: "12px" }}>
             Asked by &nbsp;<strong>{props.name}</strong>

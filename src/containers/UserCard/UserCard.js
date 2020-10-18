@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { storage } from "../../Firebase/Firebase";
-import Spinner from "react-bootstrap/Spinner";
+import { Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
@@ -39,6 +39,11 @@ const UserCard = (props) => {
         if (imageUrl === "") setImageUrl(url);
       });
   }
+  const solvedTooltip = (
+    <Tooltip id="button-tooltip">
+      This question is {props.isSolved ? " solved" : " not solved"}
+    </Tooltip>
+  );
   return (
     <div className="User-card">
       <div className="UserContainer">
@@ -59,6 +64,23 @@ const UserCard = (props) => {
             {parseDate(props.created_at)}
           </div>
         </div>
+        {props.type === "Question" ? (
+          <div className="IsSolved">
+            <OverlayTrigger
+              placement="right"
+              delay={{ show: 250, hide: 400 }}
+              overlay={solvedTooltip}
+            >
+              <i
+                className={
+                  props.isSolved
+                    ? "fas fa-check Solved"
+                    : "fas fa-check Unsolved"
+                }
+              ></i>
+            </OverlayTrigger>
+          </div>
+        ) : null}
       </div>
       <div
         className="Question-content"
@@ -78,12 +100,8 @@ const UserCard = (props) => {
       props.ssUrl === null ? null : imageUrl === "" ? (
         <Spinner animation="border" variant="success" />
       ) : (
-        <div style={{ display: "flex" }}>
-          <img
-            src={imageUrl}
-            alt="Screenshot"
-            className="User-image"
-          />
+        <div className="ImageContainer">
+          <img src={imageUrl} alt="Screenshot" className="User-image" />
         </div>
       )}
       {editButton}
@@ -94,6 +112,7 @@ const UserCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     loggedUser: state.auth.user,
+    isSolved: state.answers.isSolved,
   };
 };
 

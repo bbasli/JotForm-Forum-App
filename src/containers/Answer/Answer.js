@@ -57,6 +57,34 @@ class Answer extends Component {
         })
         .reverse();
     }
+    let isSolvedContainer = null;
+    if (this.props.user !== null && this.props.question !== null) {
+      if (
+        this.props.user.username ===
+        this.usernameHandler(this.props.question.answers[3])
+      )
+        isSolvedContainer = (
+          <div>
+            <p>
+              <strong>
+                If your problem is solved, please click the button and mark it
+                as solved.
+              </strong>
+            </p>
+            <button
+              className="Solve"
+              onClick={() =>
+                this.props.postSolved(
+                  !this.props.solved,
+                  this.props.question.id
+                )
+              }
+            >
+              {this.props.solved ? "Solved" : "Unsolved"}
+            </button>
+          </div>
+        );
+    }
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="Head">
@@ -87,11 +115,13 @@ class Answer extends Component {
                 </NavLink>
               </button>
               <JFSupport />
+              {isSolvedContainer}
             </div>
             {/* MAIN PART OF PAGE */}
             <div className="Main">
               <div>
-                {this.props.question !== null ? (
+                {this.props.question !== null &&
+                this.props.question.answers[5] !== undefined ? (
                   <div>
                     <span>{this.props.question.answers[5].answer}</span>
                     <UserCard
@@ -139,6 +169,7 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     answers: state.answers.answers,
     question: state.answers.question,
+    solved: state.answers.isSolved,
   };
 };
 
@@ -148,6 +179,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchQuestion: (id) => dispatch(actions.fetchQuestion(id)),
     authCheckState: () => dispatch(actions.authCheckState()),
     auth: () => dispatch(actions.auth()),
+    isSolved: (param) => dispatch(actions.isSolvedQuestion(param)),
+    postSolved: (value, questionID) =>
+      dispatch(actions.postIsSolved(value, questionID)),
   };
 };
 

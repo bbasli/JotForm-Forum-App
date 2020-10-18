@@ -7,4 +7,11 @@ export {
   fetchQuestionsSuccess,
 } from "./questions";
 
-export { fetchAnswers, fetchQuestion, fetchAnswersSuccess, addAnswer } from "./answers";
+export {
+  fetchAnswers,
+  fetchQuestion,
+  fetchAnswersSuccess,
+  addAnswer,
+  isSolvedQuestion,
+  postIsSolved,
+} from "./answers";
