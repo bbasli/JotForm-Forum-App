@@ -11,7 +11,7 @@ import * as actions from "../../store/actions/index";
 const UserCard = (props) => {
   const [imageUrl, setImageUrl] = useState("");
   const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(null);
   const stringToHTML = function (str) {
     return { __html: str };
   };
@@ -27,17 +27,21 @@ const UserCard = (props) => {
     }
   }, [props.likeList, props.loggedUser]);
   const updateLike = () => {
-    props.updateLikeCount(
-      !like,
-      props.id,
-      props.type,
-      props.loggedUser.username,
-      props.likeList
-    );
-    if (!like) setLikeCount(likeCount + 1);
-    else if (likeCount !== 1) setLikeCount(likeCount - 1);
-    else setLikeCount(null);
-    setLike(!like);
+    if (props.loggedUser !== null)
+      if (props.loggedUser.username !== props.user.username) {
+        props.updateLikeCount(
+          !like,
+          props.id,
+          props.type,
+          props.loggedUser.username,
+          props.likeList
+        );
+
+        if (!like) setLikeCount(likeCount + 1);
+        else if (likeCount !== 1) setLikeCount(likeCount - 1);
+        else setLikeCount(null);
+        setLike(!like);
+      }
   };
   let editButton = null;
   if (props.loggedUser !== null)
@@ -57,28 +61,49 @@ const UserCard = (props) => {
           </Link>
         </div>
       );
-    else
-      editButton = (
-        <OverlayTrigger
-          placement="right"
-          delay={{ show: 100, hide: 200 }}
-          overlay={
-            <Tooltip id="button-tooltip">
-              If you have a similar problem, click here
-            </Tooltip>
-          }
-        >
-          <div className="LikedContainer" onClick={() => updateLike()}>
+  let likeButton = (
+    <button
+      className="LikedContainer LikedContainerlgn"
+      onClick={() => updateLike()}
+    >
+      {like ? (
+        <i className="fas fa-heart liked mr"></i>
+      ) : (
+        <i className="far fa-heart mr"></i>
+      )}
+      {likeCount}
+    </button>
+  );
+  if (props.loggedUser !== null)
+    if (props.loggedUser.username === props.user.username)
+      if (likeCount !== null) {
+        likeButton = (
+          <div className="LikedContainer">
             {like ? (
-              <i className="fas fa-heart liked"></i>
+              <i className="fas fa-heart liked mr"></i>
             ) : (
-              <i className="far fa-heart"></i>
+              <i className="far fa-heart mr"></i>
             )}
-            &nbsp;
             {likeCount}
           </div>
-        </OverlayTrigger>
-      );
+        );
+      } else likeButton = <div></div>;
+
+  const likeOverlayButton = (
+    <OverlayTrigger
+      placement="bottom"
+      delay={{ show: 100, hide: 200 }}
+      overlay={
+        <Tooltip id="button-tooltip">
+          {props.type === "Question"
+            ? "Number of people with similar problems"
+            : "Number of people who found the answer useful"}
+        </Tooltip>
+      }
+    >
+      {likeButton}
+    </OverlayTrigger>
+  );
   if (props.ssUrl !== null && props.ssUrl !== "" && props.ssUrl !== undefined) {
     storage
       .ref("images")
@@ -153,7 +178,10 @@ const UserCard = (props) => {
           <img src={imageUrl} alt="Screenshot" className="User-image" />
         </div>
       )}
-      {editButton}
+      <div className="ButtonContainer">
+        {likeOverlayButton}
+        {editButton}
+      </div>
     </div>
   );
 };

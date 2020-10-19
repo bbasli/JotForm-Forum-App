@@ -40,8 +40,7 @@
 
 .EditContainer a {
   text-align: center;
-  width: 70px;
-  padding: 5px 15px;
+  padding: 0 5px;
   font-size: 20px;
 }
 
@@ -66,11 +65,11 @@
   top: 5px;
   background-color: transparent;
   border: none;
-  font-size: 35px
+  font-size: 35px;
 }
 
 .Solved {
-  color: #39B54A; 
+  color: #39b54a;
 }
 
 .Unsolved {
@@ -81,23 +80,41 @@
   margin-bottom: 25px;
 }
 
-.LikedContainer {
+.LikedContainer{
   display: flex;
   justify-content: flex-end;
-  margin: 15px 0;
+  margin: 15px 5px;
   align-items: center;
   font-size: 21px;
+  border: none;
+  background-color: transparent;
 }
 
-.LikedContainer i{
+.LikedContainer :hover {
+  cursor: default;
+}
+
+.LikedContainer i {
   font-size: 20px;
   cursor: pointer;
 }
 
-.LikedContainer i:hover {
+.LikedContainerlgn i:hover {
   color: red;
 }
 
 .LikedContainer .liked {
   color: red;
 }
+
+.mr {
+  margin-right: 2px;
+}
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
