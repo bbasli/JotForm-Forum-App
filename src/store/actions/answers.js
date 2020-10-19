@@ -121,3 +121,39 @@ export const postIsSolved = (param, questionID) => {
       });
   };
 };
+
+export const postLikedCount = (
+  isLike,
+  submissionID,
+  submissionType,
+  username,
+  likeList
+) => {
+  return (dispatch) => {
+    const likeUsers = JSON.parse(likeList);
+    let updatedLikeList = null;
+    if (isLike) {
+      if (likeList !== null) updatedLikeList = [...likeUsers, username];
+      else updatedLikeList = [username];
+      /*       console.log("Added user to like list", updatedLikeList); */
+    } else {
+      if (likeList !== null)
+        updatedLikeList = likeUsers.filter((user) => user !== username);
+      /*       console.log("Removed user to like list", updatedLikeList); */
+    }
+    updatedLikeList = JSON.stringify(updatedLikeList);
+    let type = "submission[17]=";
+    if (submissionType === "Answer") type = "submission[11]=";
+    axios
+      .post(
+        "https://api.jotform.com/submission/" +
+          submissionID +
+          "?apiKey=" +
+          process.env.REACT_APP_APP_KEY,
+        type + updatedLikeList
+      )
+      .then((response) => {
+        if (response.status === 200);
+      });
+  };
+};

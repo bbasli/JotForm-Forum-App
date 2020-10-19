@@ -52,6 +52,11 @@ class Answer extends Component {
                   ? null
                   : answer.answers[9].answer
               }
+              likeList={
+                answer.answers[11].answer === undefined
+                  ? null
+                  : answer.answers[11].answer
+              }
             />
           );
         })
@@ -142,6 +147,11 @@ class Answer extends Component {
                           : this.props.question.answers[14].answer
                       }
                       isAsked={true}
+                      likeList={
+                        this.props.question.answers[17].answer === undefined
+                          ? null
+                          : this.props.question.answers[17].answer
+                      }
                     />
                   </div>
                 ) : null}

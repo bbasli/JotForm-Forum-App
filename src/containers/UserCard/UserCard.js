@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { storage } from "../../Firebase/Firebase";
@@ -6,11 +6,38 @@ import { Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
+import * as actions from "../../store/actions/index";
 
 const UserCard = (props) => {
   const [imageUrl, setImageUrl] = useState("");
+  const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
   const stringToHTML = function (str) {
     return { __html: str };
+  };
+  useEffect(() => {
+    if (props.loggedUser !== null && props.likeList !== null) {
+      setLikeCount(
+        JSON.parse(props.likeList).length > 0
+          ? JSON.parse(props.likeList).length
+          : null
+      );
+      if (JSON.parse(props.likeList).includes(props.loggedUser.username))
+        setLike(true);
+    }
+  }, [props.likeList, props.loggedUser]);
+  const updateLike = () => {
+    props.updateLikeCount(
+      !like,
+      props.id,
+      props.type,
+      props.loggedUser.username,
+      props.likeList
+    );
+    if (!like) setLikeCount(likeCount + 1);
+    else if (likeCount !== 1) setLikeCount(likeCount - 1);
+    else setLikeCount(null);
+    setLike(!like);
   };
   let editButton = null;
   if (props.loggedUser !== null)
@@ -29,6 +56,28 @@ const UserCard = (props) => {
             <i className="fas fa-edit"></i>
           </Link>
         </div>
+      );
+    else
+      editButton = (
+        <OverlayTrigger
+          placement="right"
+          delay={{ show: 100, hide: 200 }}
+          overlay={
+            <Tooltip id="button-tooltip">
+              If you have a similar problem, click here
+            </Tooltip>
+          }
+        >
+          <div className="LikedContainer" onClick={() => updateLike()}>
+            {like ? (
+              <i className="fas fa-heart liked"></i>
+            ) : (
+              <i className="far fa-heart"></i>
+            )}
+            &nbsp;
+            {likeCount}
+          </div>
+        </OverlayTrigger>
       );
   if (props.ssUrl !== null && props.ssUrl !== "" && props.ssUrl !== undefined) {
     storage
@@ -68,7 +117,7 @@ const UserCard = (props) => {
           <div className="IsSolved">
             <OverlayTrigger
               placement="right"
-              delay={{ show: 250, hide: 400 }}
+              delay={{ show: 200, hide: 300 }}
               overlay={solvedTooltip}
             >
               <i
@@ -107,13 +156,6 @@ const UserCard = (props) => {
       {editButton}
     </div>
   );
-};
-
-const mapStateToProps = (state) => {
-  return {
-    loggedUser: state.auth.user,
-    isSolved: state.answers.isSolved,
-  };
 };
 
 const parseDate = (created_at) => {
@@ -189,4 +231,32 @@ const parseDate = (created_at) => {
   return "";
 };
 
-export default connect(mapStateToProps)(UserCard);
+const mapStateToProps = (state) => {
+  return {
+    loggedUser: state.auth.user,
+    isSolved: state.answers.isSolved,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateLikeCount: (
+      isLike,
+      submissionID,
+      submissionType,
+      username,
+      likeList
+    ) =>
+      dispatch(
+        actions.postLikedCount(
+          isLike,
+          submissionID,
+          submissionType,
+          username,
+          likeList
+        )
+      ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserCard);

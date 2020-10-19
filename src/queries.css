@@ -104,4 +104,20 @@
   .user {
     flex-direction: column;
   }
+  .UserContainer{
+    padding: 15px 0;
+  }
+  .UserContainer .User-info {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  .Container .Mid {
+    margin-top: 15px;
+  }
+  .ql-container.ql-snow {
+    height: 250px;
+  }
+  .editor {
+    height: auto;
+  }
 }

@@ -14,4 +14,5 @@ export {
   addAnswer,
   isSolvedQuestion,
   postIsSolved,
+  postLikedCount
 } from "./answers";
