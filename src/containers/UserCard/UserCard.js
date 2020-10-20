@@ -16,14 +16,15 @@ const UserCard = (props) => {
     return { __html: str };
   };
   useEffect(() => {
-    if (props.loggedUser !== null && props.likeList !== null) {
+    if (props.likeList !== null) {
       setLikeCount(
         JSON.parse(props.likeList).length > 0
           ? JSON.parse(props.likeList).length
           : null
       );
-      if (JSON.parse(props.likeList).includes(props.loggedUser.username))
-        setLike(true);
+      if (props.loggedUser !== null)
+        if (JSON.parse(props.likeList).includes(props.loggedUser.username))
+          setLike(true);
     }
   }, [props.likeList, props.loggedUser]);
   const updateLike = () => {
@@ -74,20 +75,20 @@ const UserCard = (props) => {
       {likeCount}
     </button>
   );
-  if (props.loggedUser !== null)
-    if (props.loggedUser.username === props.user.username)
-      if (likeCount !== null) {
-        likeButton = (
-          <div className="LikedContainer">
-            {like ? (
-              <i className="fas fa-heart liked mr"></i>
-            ) : (
-              <i className="far fa-heart mr"></i>
-            )}
-            {likeCount}
-          </div>
-        );
-      } else likeButton = <div></div>;
+  if (
+    props.loggedUser === null ||
+    props.loggedUser.username === props.user.username
+  )
+    likeButton = (
+      <div className="LikedContainer">
+        {like ? (
+          <i className="fas fa-heart liked mr"></i>
+        ) : (
+          <i className="far fa-heart mr"></i>
+        )}
+        {likeCount}
+      </div>
+    );
 
   const likeOverlayButton = (
     <OverlayTrigger
