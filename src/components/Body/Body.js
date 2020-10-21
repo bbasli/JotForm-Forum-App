@@ -122,6 +122,7 @@ const Body = (props) => {
     } else {
       if (isMyQuestions) getMyQuestions(true);
       else {
+        props.fetchAllQuestions();
         props.fetchQuestions(0, props.questionPerPage);
       }
     }
