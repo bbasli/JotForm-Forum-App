@@ -11,15 +11,19 @@
   padding: 10px;
 }
 
-.Your-answer input[type=submit] {
+.Your-answer input[type="submit"] {
   width: 150px;
   border-radius: 2rem;
-  background-color: #ef6530;
+  background-color: darkorange;
   border: none;
   color: #fff;
   height: 30px;
   font-size: 1rem;
   margin-top: 15px;
+}
+
+.Your-answer input[type="submit"]:hover {
+  background-color: #dd521b;
 }
 
 .Your-answer label {

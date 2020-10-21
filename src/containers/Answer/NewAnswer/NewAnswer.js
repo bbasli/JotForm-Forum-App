@@ -74,20 +74,25 @@ const NewAnswer = (props) => {
       .then(
         (response) => {
           if (response.status === 200) {
-            const replyCount = parseInt(props.replyCount) + 1;
+            let replyCount;
+            if (props.replyCount !== undefined)
+              replyCount = parseInt(props.replyCount) + 1;
+            else replyCount = 1;
+            const date = new Date();
             axios
               .post(
                 "https://api.jotform.com/submission/" +
                   props.questionID +
                   "?apiKey=" +
                   process.env.REACT_APP_APP_KEY,
-                "submission[9]=" + replyCount
+                "submission[9]=" + replyCount + "&submission[18]=" + date
               )
               .then((rsp) => {
                 if (rsp.status === 200) {
                   props.fetchAnswers();
                   setAnswer("");
                   setImageAsFile("");
+                  return;
                 }
               });
           }

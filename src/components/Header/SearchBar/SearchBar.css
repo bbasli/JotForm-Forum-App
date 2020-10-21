@@ -33,6 +33,10 @@
   padding: 0 15px;
 }
 
+.SearchBar button:hover {
+  background-color: #df9c16;
+}
+
 .SearchBar button :active,
 .SearchBar button :focus {
   border: none;

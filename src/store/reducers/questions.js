@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
+  all_questions: [],
   questions: [],
   totalQuestionCount: 0,
   questionPerPage: 10,
@@ -37,6 +38,12 @@ const setTotalQuestionCount = (state, action) => {
   });
 };
 
+const fetchAllQuestionsSuccess = (state, action) => {
+  return updateObject(state, {
+    all_questions: action.all,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_QUESTIONS_START:
@@ -47,6 +54,8 @@ const reducer = (state = initialState, action) => {
       return fetchQuestionsFail(state, action);
     case actionTypes.FETCH_QUESTIONS_SUCCESS:
       return fetchQuestionsSuccess(state, action);
+    case actionTypes.FETCH_ALL_QUESTIONS_SUCCESS:
+      return fetchAllQuestionsSuccess(state, action);
     default:
       return state;
   }

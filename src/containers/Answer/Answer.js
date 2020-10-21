@@ -90,8 +90,12 @@ class Answer extends Component {
           </div>
         );
     }
+    console.log("[Answer.js] rendering...");
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
+        <div id="Overlay">
+          <div className="ZoomedImage"></div>
+        </div>
         <div className="Head">
           <div className="LeftTop"></div>
           <div className="MiddleTop">

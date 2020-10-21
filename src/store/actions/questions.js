@@ -8,11 +8,7 @@ export const fetchQuestionsStart = () => {
   };
 };
 
-export const fetchQuestions = (
-  pageNumber,
-  questionPerPage,
-  searchedText = null
-) => {
+export const fetchQuestions = (pageNumber, questionPerPage) => {
   return (dispatch) => {
     dispatch(fetchQuestionsStart());
     axios
@@ -24,11 +20,11 @@ export const fetchQuestions = (
           "&limit=" +
           questionPerPage +
           '&filter={"status:ne":"DELETED"}&offset=' +
-          pageNumber
+          pageNumber +
+          "&orderby=updated_at"
       )
       .then((response) => {
-        if (searchedText === null)
-          dispatch(fetchQuestionsSuccess(response.data.content));
+        dispatch(fetchQuestionsSuccess(response.data.content.sort(sortHelper)));
       })
       .catch((err) => {
         dispatch(fetchQuestionsFail(err.data));
@@ -50,7 +46,21 @@ export const fetchQuestionsFail = (error) => {
   };
 };
 
-export const fetchTotalQuestionCount = () => {
+export const fetchTotalQuestionCountSuccess = (totalCount) => {
+  return {
+    type: actionTypes.FETCH_TOTAL_QUESTION_COUNT_SUCCESS,
+    count: totalCount,
+  };
+};
+
+export const fetchAllQuestionSuccess = (allQuestions) => {
+  return {
+    type: actionTypes.FETCH_ALL_QUESTIONS_SUCCESS,
+    all: allQuestions,
+  };
+};
+
+export const fetchAllQuestions = () => {
   return (dispatch) => {
     axios
       .get(
@@ -58,17 +68,36 @@ export const fetchTotalQuestionCount = () => {
           process.env.REACT_APP_QUESTION_FORM_ID +
           "/submissions?apiKey=" +
           process.env.REACT_APP_APP_KEY +
-          '&limit=9999&filter={"status:ne":"DELETED"}'
+          "&filtering={'status:ne':'DELETED'}&limit=9999"
       )
       .then((response) => {
+        if (response.status === 200)
+          dispatch(fetchAllQuestionSuccess(response.data.content));
         dispatch(fetchTotalQuestionCountSuccess(response.data.content.length));
       });
   };
 };
 
-export const fetchTotalQuestionCountSuccess = (totalCount) => {
-  return {
-    type: actionTypes.FETCH_TOTAL_QUESTION_COUNT_SUCCESS,
-    count: totalCount,
-  };
+export const sortHelper = (item, otherItem) => {
+  if (
+    item.answers[18].answer !== undefined &&
+    otherItem.answers[18].answer !== undefined
+  ) {
+    const itemTime =
+      new Date().getTime() - new Date(item.answers[18].answer).getTime();
+    const otherItemTime =
+      new Date().getTime() - new Date(otherItem.answers[18].answer).getTime();
+    return itemTime - otherItemTime;
+  } else if (
+    item.answers[18].answer !== undefined &&
+    otherItem.answers[18].answer === undefined
+  ) {
+    return -1;
+  } else if (
+    item.answers[18].answer !== undefined &&
+    otherItem.answers[18].answer === undefined
+  ) {
+    return 1;
+  }
+  return 1;
 };

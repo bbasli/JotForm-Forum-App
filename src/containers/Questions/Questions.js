@@ -6,7 +6,7 @@ const questions = (props) => {
   const questions = props.questions;
   let data = null;
   if (questions.length > 0) {
-    
+    data = questions;
     data = questions.map((question) => {
       let name = question.answers[3].answer.first;
       if (
@@ -20,12 +20,10 @@ const questions = (props) => {
           id={question.id}
           title={question.answers[5].answer}
           name={name}
-          content={question.answers[6].answer}
           created_at={question.created_at}
-          updated_at={question.updated_at}
+          updated_at={question.answers[18].answer}
           replyCount={question.answers[9].answer}
-          helperUrl={question.answers[7].answer}
-          //ssUrl={question.answers[11].answer}
+          isSolved={question.answers[15].answer}
         />
       );
     });

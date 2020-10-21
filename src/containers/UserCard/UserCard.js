@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { storage } from "../../Firebase/Firebase";
 import { Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
+import $ from "jquery";
 
 import "./UserCard.css";
 import Logo from "../../components/Header/Logo/Logo";
@@ -12,6 +13,7 @@ const UserCard = (props) => {
   const [imageUrl, setImageUrl] = useState("");
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(null);
+  const zoomImage = useRef();
   const stringToHTML = function (str) {
     return { __html: str };
   };
@@ -27,6 +29,17 @@ const UserCard = (props) => {
           setLike(true);
     }
   }, [props.likeList, props.loggedUser]);
+  $(zoomImage.current).on("click", function () {
+    $("#Overlay")
+      .addClass("open")
+      .one("click", function () {
+        $(this).removeClass("open");
+      });
+    $(".ZoomedImage").css({
+      backgroundImage: `url(${zoomImage.current.src})`,
+    });
+  });
+
   const updateLike = () => {
     if (props.loggedUser !== null)
       if (props.loggedUser.username !== props.user.username) {
@@ -116,9 +129,10 @@ const UserCard = (props) => {
   }
   const solvedTooltip = (
     <Tooltip id="button-tooltip">
-      This question is {props.isSolved ? " solved" : " not solved"}
+      This question is {props.isSolved ? " solved" : " unsolved"}
     </Tooltip>
   );
+  console.log("[Usercard.js] rendering...");
   return (
     <div className="User-card">
       <div className="UserContainer">
@@ -176,7 +190,12 @@ const UserCard = (props) => {
         <Spinner animation="border" variant="success" />
       ) : (
         <div className="ImageContainer">
-          <img src={imageUrl} alt="Screenshot" className="User-image" />
+          <img
+            src={imageUrl}
+            alt="Screenshot"
+            className="User-image"
+            ref={zoomImage}
+          />
         </div>
       )}
       <div className="ButtonContainer">

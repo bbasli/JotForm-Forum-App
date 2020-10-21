@@ -120,4 +120,8 @@
   .editor {
     height: auto;
   }
+  .Content .SubContent {
+    width: 100%;
+    max-width: 100%;
+  }
 }

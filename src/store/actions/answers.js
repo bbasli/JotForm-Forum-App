@@ -64,7 +64,7 @@ export const fetchAnswers = () => {
           process.env.REACT_APP_ANSWER_FORM_ID +
           "/submissions?apiKey=" +
           process.env.REACT_APP_APP_KEY +
-          '&filter={"status:ne":"DELETED"}'
+          '&filter={"status:ne":"DELETED"}&limit=9999'
       )
       .then((response) => {
         if (response.status === 200) {
@@ -114,7 +114,7 @@ export const postIsSolved = (param, questionID) => {
           questionID +
           "?apiKey=" +
           process.env.REACT_APP_APP_KEY,
-        "submission[15]=" + isSolved
+        "submission[15]=" + isSolved + "&submission[18]=" + new Date()
       )
       .then((response) => {
         if (response.status === 200) dispatch(isSolvedQuestion(param));

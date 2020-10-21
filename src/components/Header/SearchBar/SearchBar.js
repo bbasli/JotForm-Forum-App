@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 
 import "./SearchBar.css";
@@ -8,32 +7,18 @@ import * as actions from "../../../store/actions/index";
 
 const SearchBar = (props) => {
   const [searchInput, setSearchInput] = useState("");
-
   const getSearchedQuestion = () => {
-    axios
-      .get(
-        "https://api.jotform.com/form/" +
-          process.env.REACT_APP_QUESTION_FORM_ID +
-          "/submissions?apiKey=" +
-          process.env.REACT_APP_APP_KEY +
-          '&limit=9999&filter={"status:ne":"DELETED"}'
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          let data = response.data.content;
-          let filteredData = data.filter((question) => {
-            const title = question.answers[5].answer.toLowerCase().trim();
-            return title.indexOf(searchInput.toLowerCase()) >= 0;
-          });
-          props.fetchQuestionsSuccess(filteredData);
-          props.fetchTotalQuestionCountSuccess(filteredData.length);
-          if (searchInput === "") {
-            props.fetchTotalQuestionCount();
-            props.fetchQuestions(0, props.questionPerPage);
-          }
-          setSearchInput("");
-        }
-      });
+    let data = props.allQuestions;
+    let filteredData = data.filter((question) => {
+      const title = question.answers[5].answer.toLowerCase().trim();
+      return title.indexOf(searchInput.toLowerCase()) >= 0;
+    });
+    props.fetchQuestionsSuccess(filteredData);
+    props.fetchTotalQuestionCountSuccess(filteredData.length);
+    if (searchInput === "") {
+      props.fetchQuestions(0, props.questionPerPage);
+    }
+    setSearchInput("");
   };
 
   return (
@@ -64,6 +49,8 @@ const SearchBar = (props) => {
 const mapStateToProps = (state) => {
   return {
     questionPerPage: state.questions.questionPerPage,
+    totalQuestionCount: state.questions.totalQuestionCount,
+    allQuestions: state.questions.all_questions,
   };
 };
 
@@ -73,7 +60,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.fetchQuestionsSuccess(newQuestions)),
     fetchTotalQuestionCountSuccess: (newQuestionCount) =>
       dispatch(actions.fetchTotalQuestionCountSuccess(newQuestionCount)),
-    fetchTotalQuestionCount: () => dispatch(actions.fetchTotalQuestionCount()),
     fetchQuestions: (pageNumber, questionPerPage) =>
       dispatch(actions.fetchQuestions(pageNumber, questionPerPage)),
   };

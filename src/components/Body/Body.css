@@ -34,8 +34,12 @@
   justify-content: flex-end;
 }
 
-.Ask {
-  background: #39b54a;
+.MyQButton button:hover {
+  background: #0a4179;
+}
+
+.Ask:hover {
+  background: #0f751c;
 }
 
 .Part-one {
@@ -49,12 +53,12 @@
   flex-direction: column;
 }
 
-.MyQuestionDiv {
+.QuestionsDiv {
   display: flex;
   flex-direction: column;
 }
 
-.MyQuestionDiv span {
+.QuestionsDiv span {
   text-align: left;
   font-size: 30px;
   margin-bottom: 15px;
@@ -74,6 +78,13 @@
 }
 
 .Parts {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+}
+
+.SolvedButtons button{
+  border-bottom: none;
+  background-color: orchid;
+  border-radius: 25px;
+  padding: 10px 15px;
 }
