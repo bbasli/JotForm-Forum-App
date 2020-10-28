@@ -132,7 +132,16 @@ class Answer extends Component {
                 {this.props.question !== null &&
                 this.props.question.answers[5] !== undefined ? (
                   <div>
-                    <span>{this.props.question.answers[5].answer}</span>
+                    <div style={{ display: "flex" }}>
+                      <span
+                        className="goBackIcon"
+                        onClick={() => this.props.history.goBack()}
+                      >
+                        <i class="fas fa-chevron-left"></i>
+                      </span>
+                      &nbsp;
+                      <span>{this.props.question.answers[5].answer}</span>
+                    </div>
                     <UserCard
                       id={this.props.question.id}
                       user={{

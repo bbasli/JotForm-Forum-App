@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "./Toolbar.css";
 import Logo from "../Logo/Logo";
 import NavBar from "../NavBar/NavBar";
+import SideDrawer from "../../SideDrawer/SideDrawer";
 import * as actions from "../../../store/actions/index";
 
-const toolbar = (props) => {
+const Toolbar = (props) => {
+  const [openModal, setModal] = useState(false);
   const getAccountType = (accountTypeUrl) => {
     return accountTypeUrl.substring(accountTypeUrl.lastIndexOf("/") + 1);
   };
   let userLogo = null;
+  let account_type = null;
   if (props.user !== null) {
+    account_type = getAccountType(props.user.account_type);
     userLogo = (
       <div className="dropdown">
         <button className="logobttn">
@@ -34,7 +38,7 @@ const toolbar = (props) => {
             </span>
             &nbsp;
             <span className="User-type">
-              {getAccountType(props.user.account_type)}
+              {account_type}
             </span>
           </div>
           <div className="Border-padding">
@@ -69,6 +73,17 @@ const toolbar = (props) => {
       <div className="NavAvatar">
         <NavBar>{userLogo}</NavBar>
       </div>
+      <button className="MobileNavigation" onClick={() => setModal(true)}>
+        <i className="fas fa-bars"></i>
+      </button>
+      <SideDrawer
+        openModal={openModal}
+        setVisible={setModal}
+        user={props.user}
+        auth={props.onAuth}
+        accountType={account_type}
+        logout={props.logout}
+      />
     </div>
   );
 };
@@ -85,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(toolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

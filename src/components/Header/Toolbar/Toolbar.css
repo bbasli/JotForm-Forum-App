@@ -16,3 +16,12 @@
 nav {
   width: 100%;
 }
+
+.MobileNavigation {
+  margin-right: 30px;
+  color: white;
+  font-size: 30px;
+  background-color: transparent;
+  border: none;
+  display: none;
+}

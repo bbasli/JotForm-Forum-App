@@ -167,3 +167,7 @@
   margin: 5% 10%;
   background: transparent none 50% / contain no-repeat;
 }
+
+.goBackIcon {
+  display: none;
+}

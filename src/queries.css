@@ -39,7 +39,7 @@
   .Text,
   .SearchBar,
   .Toolbar {
-    padding-left: 30px;
+    padding-left: 20px;
   }
   .Question-Content-Container .Fields {
     width: 100%;
@@ -63,6 +63,13 @@
   }
   .Helper-Fields input[type="submit"] {
     margin-right: 30px;
+  }
+  .MobileNavigation {
+    display: inline;
+    margin-right: 10px;
+  }
+  .goBackIcon {
+    display: block;
   }
 }
 
@@ -104,7 +111,7 @@
   .user {
     flex-direction: column;
   }
-  .UserContainer{
+  .UserContainer {
     padding: 15px 0;
   }
   .UserContainer .User-info {
@@ -123,5 +130,8 @@
   .Content .SubContent {
     width: 100%;
     max-width: 100%;
+  }
+  .SideDrawer * {
+    font-size: 15px;
   }
 }
