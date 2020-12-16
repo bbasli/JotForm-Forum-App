@@ -10,8 +10,7 @@ export const authStart = () => {
 
 export const authSuccess = (token) => {
   return (dispatch) => {
-    const requestUrl =
-      "https://api.jotform.com/user?apiKey=" + token;
+    const requestUrl = "https://api.jotform.com/user?apiKey=" + token;
     axios
       .get(requestUrl)
       .then((response) => {

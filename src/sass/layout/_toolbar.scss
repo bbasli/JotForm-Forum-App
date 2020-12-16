@@ -1,0 +1,126 @@
+.toolbar {
+  height: 6vh;
+  &-logo {
+    padding: 1.2rem 0;
+    height: 100%;
+    float: left;
+  }
+
+  &-links {
+    float: right;
+    display: flex;
+    margin: 0;
+    height: 100%;
+
+    & .user {
+      height: 5rem;
+      width: 5rem;
+      border-radius: 50%;
+      border: 2px solid $color-orange;
+      margin-top: 0.5rem;
+      background-size: cover;
+
+      & .triangle {
+        top: 22px;
+        left: 10px;
+      }
+
+      & .dropdown-content {
+        left: -230px;
+        top: 55px;
+      }
+    }
+
+    & .dropdown {
+      position: relative;
+      display: inline-block;
+
+      & .triangle {
+        display: none;
+        z-index: 1;
+        width: 25px;
+        height: 35px;
+        background-color: $color-white;
+        clip-path: polygon(51% 73%, 0% 100%, 100% 100%);
+        position: absolute;
+      }
+
+      &:not(:last-child) {
+        .dropbtn {
+          margin-right: 2.5rem;
+        }
+
+        & .triangle {
+          top: 15.5px;
+          left: 17.5px;
+        }
+      }
+
+      & button {
+        background-color: transparent;
+        border: none;
+      }
+
+      &-content {
+        display: none;
+        position: absolute;
+        background-color: $color-white;
+        z-index: 1;
+        box-shadow: 0 8px 16px 0 rgba($color-black, 0.2);
+        border-radius: 10px;
+        width: 27.5rem;
+        left: -50%;
+        top: 47.5px;
+        a,
+        button,
+        .user-info-row {
+          width: 100%;
+          color: $color-black;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.2rem 1.6rem;
+          font-size: 1.5rem;
+          border-radius: inherit;
+
+          & .user-account-type {
+            color: $color-white;
+            background-color: $color-black;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+          }
+        }
+
+        a:hover,
+        button:hover {
+          background-color: rgb(248, 243, 243);
+          color: $color-black;
+          text-decoration: none;
+        }
+      }
+    }
+
+    & .dropbtn {
+      height: 100%;
+      text-decoration: none;
+      color: $color-white;
+      font-weight: 700;
+      font-size: 1.6rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+    }
+
+    a:hover,
+    button:hover {
+      color: lighten($color-orange, 10%);
+    }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown:hover .triangle,
+    .triangle:hover .dropdown-content {
+      display: block;
+    }
+  }
+}

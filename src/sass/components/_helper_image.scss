@@ -1,0 +1,17 @@
+.helper-image-box {
+  margin: 2.5rem auto;
+  .helper-image {
+    display: block;
+    margin: auto;
+
+    height: auto;
+    max-height: 50%;
+
+    width: auto;
+    max-width: 50%;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

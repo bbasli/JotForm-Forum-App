@@ -1,0 +1,53 @@
+.u-margin-bt-3 {
+  margin: 3rem 0;
+}
+
+.u-margin-bt-2 {
+  margin: 2rem 0;
+}
+
+.u-dp-fl {
+  display: flex;
+}
+
+.u-fs-3 {
+  font-size: 3rem;
+}
+
+.u-fs-2 {
+  font-size: 2rem;
+}
+
+.u-abs-rt {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.u-abs-rb {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.u-question-solved {
+  color: #39b54a;
+}
+
+.u-question-unsolved {
+  color: grey;
+}
+
+.u-text-align-r {
+  text-align: right;
+}
+
+.u-blue-text {
+  color: $color-primary-light;
+  font-weight: 700;
+}
+
+.u-br-gr {
+  border: 2px solid $color-grey-dark;
+  border-radius: 5px;
+}

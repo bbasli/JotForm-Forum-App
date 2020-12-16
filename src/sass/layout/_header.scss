@@ -1,0 +1,79 @@
+.header {
+  background-image: linear-gradient(
+    to top,
+    $color-primary-light,
+    $color-primary
+  );
+  &-home {
+    background-color: transparent;
+    max-width: 1140px;
+    height: 30vh;
+    margin: 0 auto;
+    position: relative;
+
+    & .heading-logo {
+      height: 80%;
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & img {
+        height: 55%;
+        position: absolute;
+        bottom: -1.2rem;
+      }
+    }
+
+    & .heading-home {
+      color: $color-white;
+      position: absolute;
+      left: 25%;
+      top: 35%;
+      cursor: pointer;
+
+      &-primary-main {
+        font-size: 4.5rem;
+        font-weight: 700;
+      }
+
+      &-primary-sub {
+        font-size: 1.55rem;
+        font-weight: 500;
+      }
+    }
+
+    & .header-searchbar {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 25%;
+      display: inline-flex;
+      font-size: 1.6rem;
+
+      input {
+        width: 60rem;
+        height: 50px;
+        border: none;
+      }
+
+      button {
+        height: 50px;
+        width: 15%;
+        margin-left: 1rem;
+        background-color: $color-yellow;
+        border: none;
+        color: $color-white;
+        font-size: 1.6rem;
+        border-radius: 5px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &-answers {
+    background-color: transparent;
+    max-width: 1140px;
+    height: 6vh;
+    margin: 0 auto;
+    position: relative;
+  }
+}

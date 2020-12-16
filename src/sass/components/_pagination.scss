@@ -1,0 +1,42 @@
+.pagination-box {
+  display: flex;
+  justify-content: center;
+  margin: 50px auto;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  outline: none;
+
+  & > li > a {
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  & > .active {
+    border: 2px solid $color-primary;
+    & > a,
+    & > span,
+    & > a:hover,
+    & > span:hover,
+    & > a:focus,
+    & > span:focus {
+      color: $color-primary !important;
+      outline: none;
+    }
+  }
+  & > li > a,
+  & > li > span {
+    color: $color-primary-light;
+  }
+  & > li:first-child > a,
+  & > li:first-child > span,
+  & > li:last-child > a,
+  & > li:last-child > span {
+    border-radius: unset;
+  }
+}

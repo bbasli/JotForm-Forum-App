@@ -1,0 +1,26 @@
+/* @import "sass/abstracts/functions";
+@import "sass/abstracts/mixins"; */
+@import "sass/abstracts/variables";
+
+@import "sass/base/base";
+@import "sass/base/utility";
+@import "sass/base/bootstrap";
+
+/* @import "sass/base/animation";
+
+@import "sass/base/typography";
+
+ */
+@import "sass/components/button";
+@import "sass/components/helper_image";
+@import "sass/components/pagination";
+@import "sass/components/question";
+@import "sass/components/not_found";
+
+@import "sass/layout/header";
+@import "sass/layout/info_articles";
+@import "sass/layout/toolbar";
+
+@import "sass/pages/home";
+@import "sass/pages/answers";
+@import "sass/pages/new_question";

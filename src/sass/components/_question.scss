@@ -1,0 +1,43 @@
+.question-box {
+  padding: 0.8rem 0;
+  margin: 0.95rem 0;
+  border-bottom: 1.5px solid $color-grey-light;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .question-reply-count-box {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $color-grey-light;
+    border-radius: 5px;
+    padding: 0.6rem 0.8rem;
+    font-size: 1.1rem;
+  }
+
+  .question-info-box {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    & .question-title {
+      color: rgb(70, 70, 70);
+      font-size: 1.35rem;
+      font-weight: 400;
+    }
+    & .question-owner {
+      font-size: 1.15rem;
+      color: darken($color: $color-grey-light, $amount: 15%);
+    }
+  }
+
+  .question-elapsed-time-box {
+    position: absolute;
+    right: 0;
+    bottom: 7px;
+    font-size: 1.15rem;
+    color: darken($color: $color-grey-light, $amount: 15%);
+  }
+}

@@ -1,0 +1,22 @@
+.not-found {
+  max-width: 1140px;
+  position: absolute;
+  top: 200px;
+  left: 25%;
+
+  &-heading-main {
+    font-size: 12rem;
+  }
+
+  &-router {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    &-text,
+    &-link {
+      font-size: 4rem;
+      font-weight: 600;
+    }
+  }
+}

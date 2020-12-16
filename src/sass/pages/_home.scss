@@ -1,0 +1,25 @@
+.main-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.buttons {
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  height: 100%;
+  margin-top: 2rem;
+  display: flex;
+}
+
+.main-box {
+  width: 75%;
+  font-size: 1.75rem;
+  flex-direction: column;
+  &-heading {
+    margin-bottom: 20px;
+  }
+}

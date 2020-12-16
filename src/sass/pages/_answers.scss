@@ -1,0 +1,124 @@
+.main-answers {
+  margin: 5rem auto;
+  display: flex;
+
+  h1 {
+    border: none !important;
+  }
+
+  input[type="file"] {
+    margin: 35px 0 20px 0;
+  }
+
+  .user-card {
+    margin-top: 25px;
+    padding: 20px 30px;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.11);
+    border-radius: 10px;
+    font-size: 1.4rem;
+    position: relative;
+
+    &-info-box {
+      display: flex;
+      position: relative;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid $color-grey-light;
+
+      img {
+        height: 60px;
+        width: 60px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    }
+
+    &-question-time-owner {
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+
+    &-content {
+      padding: 15px 5px;
+      margin-bottom: 16px;
+
+      &-text {
+        margin: 10px 0;
+      }
+
+      a {
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+
+    .liked {
+      color: red;
+    }
+
+    &-features {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .unlogged-user-container {
+      display: flex;
+      margin: 1rem 0 2rem 0;
+      div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        input {
+          min-height: 32px;
+        }
+      }
+      div:first-child {
+        margin-right: 25px;
+      }
+    }
+  }
+
+  #Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8) none 50% / contain no-repeat;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 999;
+
+    visibility: hidden;
+    opacity: 0;
+  }
+  #Overlay.open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  #Overlay:after {
+    content: "\2715";
+    position: absolute;
+    color: #fff;
+    top: 10px;
+    right: 20px;
+    font-size: 2em;
+  }
+
+  .ZoomedImage {
+    z-index: 9999;
+    width: auto;
+    height: 75%;
+    margin: 5% 10%;
+    background: transparent none 50% / contain no-repeat;
+  }
+
+  .go-back-box {
+    display: flex;
+    align-items: center;
+  }
+}

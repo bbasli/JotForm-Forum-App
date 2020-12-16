@@ -4,7 +4,7 @@ import * as actionTypes from "./actionTypes";
 
 export const fetchQuestionStart = () => {
   return {
-    type: actionTypes.FETCH_SELECTED_QUESTION_START,
+    type: actionTypes.FETCH_QUESTION_START,
   };
 };
 
@@ -20,14 +20,9 @@ export const fetchQuestion = (submissionID) => {
           '&filter={"status:ne":"DELETED"}'
       )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 200)
           dispatch(fetchQuestionSuccess(response.data.content));
-          if (response.data.content.answers[15].answer !== undefined)
-            if (response.data.content.answers[15].answer === "1")
-              dispatch(isSolvedQuestion(true));
-            else dispatch(isSolvedQuestion(false));
-          else dispatch(isSolvedQuestion(false));
-        }
+        else dispatch(fetchQuestionFail(response.status));
       })
       .catch((error) => {
         dispatch(fetchQuestionFail(error));
@@ -37,14 +32,14 @@ export const fetchQuestion = (submissionID) => {
 
 export const fetchQuestionSuccess = (question) => {
   return {
-    type: actionTypes.FETCH_SELECTED_QUESTION_SUCCESS,
+    type: actionTypes.FETCH_QUESTION_SUCCESS,
     question: question,
   };
 };
 
 export const fetchQuestionFail = (error) => {
   return {
-    type: actionTypes.FETCH_SELECTED_QUESTION_FAIL,
+    type: actionTypes.FETCH_QUESTION_FAIL,
     err: error,
   };
 };
@@ -67,9 +62,9 @@ export const fetchAnswers = () => {
           '&filter={"status:ne":"DELETED"}&limit=9999'
       )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 200)
           dispatch(fetchAnswersSuccess(response.data.content));
-        }
+        else dispatch(fetchAnswersFail(response.status));
       })
       .catch((err) => {
         dispatch(fetchAnswersFail(err));
@@ -77,10 +72,10 @@ export const fetchAnswers = () => {
   };
 };
 
-export const fetchAnswersSuccess = (NewAnswers) => {
+export const fetchAnswersSuccess = (newAnswers) => {
   return {
     type: actionTypes.FETCH_ANSWERS_SUCCESS,
-    answers: NewAnswers,
+    answers: newAnswers,
   };
 };
 
@@ -88,72 +83,5 @@ export const fetchAnswersFail = (error) => {
   return {
     type: actionTypes.FETCH_ANSWERS_FAIL,
     err: error,
-  };
-};
-
-export const addAnswer = (newAnswer) => {
-  return {
-    type: actionTypes.ADD_ANSWER,
-    newAnswer: newAnswer,
-  };
-};
-
-export const isSolvedQuestion = (param) => {
-  return {
-    type: actionTypes.IS_SOLVED_QUESTION,
-    isSolved: param,
-  };
-};
-
-export const postIsSolved = (param, questionID) => {
-  return (dispatch) => {
-    const isSolved = param ? "1" : "0";
-    axios
-      .post(
-        "https://api.jotform.com/submission/" +
-          questionID +
-          "?apiKey=" +
-          process.env.REACT_APP_APP_KEY,
-        "submission[15]=" + isSolved + "&submission[18]=" + new Date()
-      )
-      .then((response) => {
-        if (response.status === 200) dispatch(isSolvedQuestion(param));
-      });
-  };
-};
-
-export const postLikedCount = (
-  isLike,
-  submissionID,
-  submissionType,
-  username,
-  likeList
-) => {
-  return (dispatch) => {
-    const likeUsers = JSON.parse(likeList);
-    let updatedLikeList = null;
-    if (isLike) {
-      if (likeList !== null) updatedLikeList = [...likeUsers, username];
-      else updatedLikeList = [username];
-      /*       console.log("Added user to like list", updatedLikeList); */
-    } else {
-      if (likeList !== null)
-        updatedLikeList = likeUsers.filter((user) => user !== username);
-      /*       console.log("Removed user to like list", updatedLikeList); */
-    }
-    updatedLikeList = JSON.stringify(updatedLikeList);
-    let type = "submission[17]=";
-    if (submissionType === "Answer") type = "submission[11]=";
-    axios
-      .post(
-        "https://api.jotform.com/submission/" +
-          submissionID +
-          "?apiKey=" +
-          process.env.REACT_APP_APP_KEY,
-        type + updatedLikeList
-      )
-      .then((response) => {
-        if (response.status === 200);
-      });
   };
 };
